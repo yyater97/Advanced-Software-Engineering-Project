@@ -15,7 +15,7 @@ Phần mềm được viết bằng ngôn ngữ Java với nền tảng Android,
 Sử dụng công cụ Andorid studio IDE và MySQL (Xampp, máy chủ Apache)  
 (Trước khi sử dụng phần mềm yêu cầu quý khách hàng cài đặt SQL Sever và thêm file cơ sở dữ liệu vào hệ thống)
 
-3. Các chức năng của phần mềm  
+3. Các chức năng của phần mềm
 Phần mềm quản lý tài chính cá nhân gồm có các chức năng như sau:  
 - Quản lý tài khoản của khách hàng  
 	Phần mềm sẽ quản lý một trong các tài khoản sau Ví tiền, tài khoản ATM, sổ tiết kiệm hoặc tài khoản ngân hàng, số tiền trong các tài khoản sẽ được tự động cập nhật thông qua các hoạt động thu chi của khách hàng  
@@ -33,7 +33,7 @@ Phần mềm quản lý tài chính cá nhân gồm có các chức năng như s
 Phần mềm quản lý tài chính cá nhân sẽ giúp khách hàng biết được tình trạng thu nhập và chi tiêu của mình, các hoạt động tiêu dùng đã hợp lý hay chưa (số tiền bỏ ra có vượt quá hay còn dư so với thu nhập kiếm được), từ đó nhắc nhở khách hàng phải chi tiêu hợp lý hơn tránh trường hợp đầu và giữa tháng chi quá mạnh tay đến cuối tháng hết tiền.  
 Đồng thời phần mềm còn cung cấp tỷ giá giữ các loại tiền đang lưu hành trên thị trường, hỗn trợ khách hàng chọn thời điểm khi muốn đổi tiền một cách tốt nhất.  
 
-5. Ưu nhược điểm của phần mềm  
+5. Ưu nhược điểm của phần mềm
 - Ưu điểm:  
 	Phần mềm đáp ứng nhu cầu quản lý tài chính cá nhân cơ bản của khách hàng.  
 	Phần mềm có các tính năng hữu ích, trực quan, dễ sử dụng.  
