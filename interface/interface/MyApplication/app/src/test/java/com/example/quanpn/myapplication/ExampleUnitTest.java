@@ -1,4 +1,4 @@
-package com.example.thanh.myapplication;
+package com.example.quanpn.myapplication;
 
 import org.junit.Test;
 

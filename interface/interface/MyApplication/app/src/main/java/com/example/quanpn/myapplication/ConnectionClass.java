@@ -1,4 +1,4 @@
-package com.learnadroid.myfirstapp;
+package com.example.quanpn.myapplication;
 
 import android.annotation.SuppressLint;
 import android.os.StrictMode;
@@ -9,8 +9,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Created by ABHI on 9/20/2016.
+ * Created by QUANPN on 4/25/2018.
  */
+
 public class ConnectionClass {
     String classs = "com.mysql.jdbc.Driver";
     String url = "jdbc:mysql://192.168.1.47/platfformdb";

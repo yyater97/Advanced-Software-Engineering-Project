@@ -13,21 +13,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
         android:layout_margin="20dp"
-        >
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="LOGIN"
-            android:textSize="40dp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:fontFamily="cursive"
             android:layout_marginBottom="20dp"
-            />
+            android:fontFamily="cursive"
+            android:gravity="center"
+            android:text="LOGIN"
+            android:textColor="#ffffff"
+            android:textSize="40dp" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -53,6 +51,7 @@
             android:textColorHint="#ffffff">
 
         </android.support.design.widget.TextInputLayout>
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,8 +90,6 @@
 
 
     </LinearLayout>
-
-
 
 
 </LinearLayout>
