@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.quanpn.myapplication">
+    package="com.learnadroid.myfirstapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,12 +18,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Main2Activity" />
+        <activity android:name=".register" />
+        <activity android:name=".quanlytaikhoan" />
         <activity
             android:name=".menu"
-            android:label="@string/title_activity_main2"
+            android:label="@string/title_activity_menu"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".register" />
-        <activity android:name=".quanlytaikhoan"></activity>
+        <activity
+            android:name=".quanlythu"
+            android:label="@string/title_activity_quanlythu"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".taikhoan"
+            android:label="@string/title_activity_taikhoan"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".quanlychi"
+            android:label="@string/title_activity_quanlychi"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

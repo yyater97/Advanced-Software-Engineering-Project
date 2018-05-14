@@ -1,9 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.quanpn.myapplication.quanlytaikhoan">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="QUẢN LÍ TÀI KHOẢN"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
+        android:fontFamily="serif"
+        android:textColor="#01C0FA"
+        />
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="tìm kiếm tài khoản"
+        />
 
-</android.support.constraint.ConstraintLayout>
+
+    <ListView
+        android:id="@+id/lvTaiKhoan"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thêm tài khoản"
+            android:layout_marginRight="20dp"
+            android:textStyle="bold|italic"
+            android:background="#01C0FA"
+            android:textColor="#922C42"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xóa tài khoản"
+            android:layout_marginRight="20dp"
+            android:textStyle="bold|italic"
+            android:background="#01C0FA"
+            android:textColor="#922C42"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sửa tài khoản"
+            android:textStyle="bold|italic"
+            android:background="#01C0FA"
+            android:textColor="#922C42"
+            />
+    </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quản lí thu"
+        android:textStyle="bold|italic"
+        android:background="#01C0FA"
+        android:textColor="#922C42"
+        android:layout_margin="10dp"
+
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quản lí chi"
+        android:textStyle="bold|italic"
+        android:background="#01C0FA"
+        android:textColor="#922C42"
+        android:layout_margin="10dp"
+        />
+
+</LinearLayout>
