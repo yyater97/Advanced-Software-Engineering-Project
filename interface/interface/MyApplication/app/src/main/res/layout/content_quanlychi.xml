@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.learnadroid.myfirstapp.quanlychi"
+    tools:showIn="@layout/app_bar_quanlychi">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.learnadroid.myfirstapp.quanlythu"
+        tools:showIn="@layout/app_bar_quanlythu"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+        <ImageView
+            android:id="@+id/imageView17"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+
+            android:layout_alignLeft="@+id/imageView16"
+            android:layout_alignStart="@+id/imageView16"
+            android:layout_alignTop="@+id/txtTu"
+            app:srcCompat="@drawable/me_time" />
+
+        <ImageView
+            android:id="@+id/imageView16"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/thutien"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/txtTu"
+            android:layout_toStartOf="@+id/txtTu"
+            android:layout_marginTop="20dp" />
+
+
+
+        <EditText
+            android:id="@+id/txtTu"
+            style="@style/Animation.Design.BottomSheetDialog"
+            android:layout_width="270dp"
+            android:layout_height="40dp"
+            android:ems="10"
+            android:hint="Đến"
+            android:inputType="text"
+            android:layout_marginRight="22dp"
+            android:layout_marginEnd="22dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="170dp" />
+
+
+
+
+
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/txtGiatri"
+        android:layout_width="270dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="17dp"
+        android:ems="10"
+        android:hint="Giá trị"
+        android:inputType="numberDecimal"/>
+
+
+    <ImageButton
+        android:id="@+id/btSave"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:elevation="5dp"
+        app:srcCompat="@android:drawable/ic_menu_save"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/textView9"
+        android:layout_alignEnd="@+id/textView9"
+        android:layout_marginBottom="12dp" />
+
+    <ImageButton
+        android:id="@+id/btExit"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignEnd="@+id/txtGhichu"
+        android:layout_alignRight="@+id/txtGhichu"
+        android:layout_alignTop="@+id/btSave"
+        android:layout_marginEnd="42dp"
+        android:layout_marginRight="42dp"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+    <EditText
+        android:id="@+id/txtGhichu"
+        style="@style/Animation.Design.BottomSheetDialog"
+        android:layout_width="270dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="30dp"
+        android:ems="10"
+        android:hint="Ghi chú"
+        android:inputType="text"
+
+        android:layout_above="@+id/btSave"
+        android:layout_alignLeft="@+id/txtNgaythu"
+        android:layout_alignStart="@+id/txtNgaythu" />
+
+    <Spinner
+        android:id="@+id/spMucchi"
+        android:layout_width="270dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/textView8"
+        android:layout_alignLeft="@+id/textView8"
+        android:layout_alignStart="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Mục chi"
+        android:layout_below="@+id/imageView19"
+        android:layout_alignLeft="@+id/textView9"
+        android:layout_alignStart="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtGiatri"
+        android:layout_alignStart="@+id/txtGiatri"
+        android:layout_below="@+id/txtGiatri"
+        android:layout_marginTop="14dp"
+        android:text="Tài khoản" />
+
+    <EditText
+        android:id="@+id/txtNgaythu"
+        android:layout_width="270dp"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:hint="Ngày thu"
+        android:inputType="date"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/spMucchi"
+        android:layout_alignStart="@+id/spMucchi" />
+
+    <ImageView
+        android:id="@+id/imageView13"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/thutien"
+        android:layout_alignTop="@+id/imageView18"
+        android:layout_alignLeft="@+id/imageView18"
+        android:layout_alignStart="@+id/imageView18" />
+
+    <ImageView
+        android:id="@+id/imageView18"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/chitien"
+        android:layout_below="@+id/textView8"
+        android:layout_alignLeft="@+id/imageView19"
+        android:layout_alignStart="@+id/imageView19" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/calendar"
+        android:layout_alignTop="@+id/txtNgaythu"
+        android:layout_alignLeft="@+id/imageView13"
+        android:layout_alignStart="@+id/imageView13" />
+
+    <ImageView
+        android:id="@+id/imageView19"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        app:srcCompat="@drawable/taikhoan"
+        android:layout_below="@+id/textView9"
+        android:layout_toLeftOf="@+id/btSave"
+        android:layout_toStartOf="@+id/btSave"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp" />
+
+</RelativeLayout>

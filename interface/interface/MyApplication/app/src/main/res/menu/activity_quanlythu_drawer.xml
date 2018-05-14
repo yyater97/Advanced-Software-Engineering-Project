@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/trangchu"
+            android:icon="@drawable/trangchu"
+            android:title="Trang chủ" />
+        <item
+            android:id="@+id/cactaikhoan"
+            android:icon="@android:drawable/ic_menu_myplaces"
+            android:title="Các tài khoản" />
+        <item
+            android:id="@+id/quanlythu"
+            android:icon="@android:drawable/ic_input_add"
+            android:title="Thu tiền" />
+        <item
+            android:id="@+id/quanlychi"
+            android:icon="@android:drawable/ic_menu_send"
+            android:title="Chi tiền" />
+        <item
+            android:id="@+id/lich"
+            android:icon="@android:drawable/ic_menu_month"
+            android:title="Lịch" />
+        <item
+            android:id="@+id/danhsachthu"
+            android:icon="@android:drawable/btn_star_big_on"
+            android:title="Danh sách thu tiền" />
+        <item
+            android:id="@+id/Danhsachchi"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="Danh sách chi tiền" />
+        <item
+            android:id="@+id/Baocao"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="Báo cáo" />
+
+    </group>
+
+    <item android:title="Tùy chọn khác">
+        <menu>
+            <item
+                android:id="@+id/tracuu"
+                android:icon="@android:drawable/ic_search_category_default"
+                android:title="Tra cứu" />
+            <item
+                android:id="@+id/setting"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Setting" />
+        </menu>
+    </item>
+
+</menu>

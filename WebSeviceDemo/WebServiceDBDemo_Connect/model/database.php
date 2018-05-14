@@ -5,7 +5,7 @@ class database{
     public $_cursor = NULL;        
     
     public function database() {
-        $this->_dbh = new PDO('mysql:host=localhost; dbname=id5644240_personal_finance_software','id5644240_team5_project','quangprono2');
+        $this->_dbh = new PDO('mysql:host=localhost; dbname=id5656407_aaaa','id5656407_quan','aaaaa');
         $this->_dbh->query('set names "utf8"');
     }
     

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/txtMataikhoan"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Mã tài khoản"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/txtTentaikhoan"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Tên tài khoản"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/txtSodubandau"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Số dư ban đầu"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btnDangKi"
+        android:layout_width="364dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Đăng kí" />
+
+    <Button
+        android:id="@+id/btHuy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Hủy" />
+
+</LinearLayout>
