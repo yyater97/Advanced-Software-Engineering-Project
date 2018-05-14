@@ -1,7 +1,10 @@
 package com.example.banana.webservicedbdemo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -72,5 +75,20 @@ public class MainActivity extends AppCompatActivity {
                 );
         requestQueue.add(jsonArrayRequest);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_type_expense,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.menuAddTypeExpense){
+            startActivity(new Intent(MainActivity.this, AddTypeExpenseActivity.class));
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
