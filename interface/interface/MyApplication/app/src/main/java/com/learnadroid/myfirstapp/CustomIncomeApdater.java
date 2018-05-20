@@ -12,15 +12,15 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by QUANPN on 5/1/2018.
+ * Created by QUANPN on 5/19/2018.
  */
 
-public class CustomListAdapter  extends BaseAdapter {
-    private List<Country> listData;
+public class CustomIncomeApdater  extends BaseAdapter {
+    private List<Income> listData;
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public CustomListAdapter(Context aContext,  List<Country> listData) {
+    public CustomIncomeApdater(Context aContext,  List<Income> listData) {
         this.context = aContext;
         this.listData = listData;
         layoutInflater = LayoutInflater.from(aContext);
@@ -44,20 +44,21 @@ public class CustomListAdapter  extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.list_item_layout, null);
-            holder = new ViewHolder();
+            convertView = layoutInflater.inflate(R.layout.listview, null);
+            holder = new CustomIncomeApdater.ViewHolder();
             holder.flagView = (ImageView) convertView.findViewById(R.id.imageView_flag);
+            holder.dateNameView = (TextView) convertView.findViewById(R.id.textView6);
             holder.countryNameView = (TextView) convertView.findViewById(R.id.textView_countryName);
             holder.populationView = (TextView) convertView.findViewById(R.id.textView_population);
             convertView.setTag(holder);
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            holder = (CustomIncomeApdater.ViewHolder) convertView.getTag();
         }
 
-        Country country = this.listData.get(position);
-        holder.countryNameView.setText(country.getCountryName());
-        holder.populationView.setText("Population: " + country.getPopulation()+" Đ");
-
+        Income country = this.listData.get(position);
+        holder.countryNameView.setText("Chi: "+country.getCountryName());
+        holder.populationView.setText("Tiền: " + country.getPopulation()+" Đ");
+        holder.dateNameView.setText("Ngày chi: " + country.getDate());
         int imageId = this.getMipmapResIdByName(country.getFlagName());
 
         holder.flagView.setImageResource(imageId);
@@ -79,7 +80,6 @@ public class CustomListAdapter  extends BaseAdapter {
         ImageView flagView;
         TextView countryNameView;
         TextView populationView;
+        TextView dateNameView;
     }
-
-
 }

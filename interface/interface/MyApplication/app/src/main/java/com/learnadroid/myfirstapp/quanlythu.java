@@ -1,6 +1,8 @@
 package com.learnadroid.myfirstapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,70 +11,76 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class quanlythu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Spinner SpinnerTaikhoan,SpinnerMucchi;
     ConnectionClass connectionClass;
-    TextView a;
+    EditText Giatri,Ngaychi,Ghichu,Tuai;
+    Button Luulai;
+    private List<String> list ;
+    private List<String> list1;
+    private String url = "https://quanpn.000webhostapp.com/manage/Laykhoanthu.php";
+    private String urlAccount = "https://quanpn.000webhostapp.com/manage/selectAccount.php";
+    private String urlInsert = "https://quanpn.000webhostapp.com/manage/insertExpense.php";
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quanlythu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //SpinnerTaikhoan=(Spinner) findViewById(R.id.spTaikhoan);
-        //SpinnerMucchi=(Spinner) findViewById(R.id.spTaikhoan);
-        a=(TextView) findViewById(R.id.txtMataikhoan) ;
-        List<String> list = new ArrayList<>();
+        final Intent a = getIntent();
+        Bundle bundle = a.getBundleExtra("getUser");
+        final String Keys=bundle.getString("Keys");
+        SpinnerTaikhoan=(Spinner) findViewById(R.id.sp_Taikhoan);
+        SpinnerMucchi=(Spinner) findViewById(R.id.sp_Mucchi);
+        Giatri=(EditText) findViewById(R.id.txt_Giatri);
+        Ngaychi=(EditText) findViewById(R.id.txt_Ngaychi);
+        Ghichu=(EditText) findViewById(R.id.txt_Ghichu);
+        Tuai=(EditText) findViewById(R.id.txt_Denai);
+        Luulai=(Button) findViewById(R.id.btn_Luulai);
+        Mucthu(url);
+        Taikhoan(urlAccount);
 
-        String z,nm;
-        connectionClass = new ConnectionClass();
-        try {
-            Connection con = connectionClass.CONN();
-            if (con == null) {
-                z = "Please check your internet connection";
-            } else {
-                String query=" select  * from type_income ";
-                Statement stmt = con.createStatement();
-                // stmt.executeUpdate(query);
-                ResultSet rs=stmt.executeQuery(query);
-                while (rs.next())
-                {
-                    list.add(rs.getString(3));
-
-                }
-                ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,list);
-                adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-                SpinnerMucchi.setAdapter(adapter);
-                query="select * from account";
-                stmt=con.createStatement();
-                rs=stmt.executeQuery(query);
-                while(rs.next())
-                {
-                    list.add(rs.getString(3));
-
-                }
-                adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,list);
-                adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-                SpinnerTaikhoan.setAdapter(adapter);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(quanlythu.this,menu.class);
+                startActivity(intent);
             }
-        }
-        catch (Exception ex)
-        {
-
-            z = "Exceptions"+ex;
-        }
-
+        });
+        Luulai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InsertExpense(Keys,SpinnerTaikhoan.getSelectedItem().toString(),SpinnerMucchi.getSelectedItem().toString());
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -83,7 +91,80 @@ public class quanlythu extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+    public void Mucthu(String url1)
+    {
+        list=new ArrayList<>();
+        final RequestQueue requestQueue = Volley.newRequestQueue(this);
+        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url1, null,
+                new Response.Listener<JSONArray>(){
 
+                    @Override
+
+                    public void onResponse(JSONArray response) {
+                        for(int i = 0; i<response.length(); i++){
+                            try {
+                                JSONObject obj = response.getJSONObject(i);
+                                {
+                                    list.add(obj.getString("type_incomeName"));
+
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            ArrayAdapter<String> adapter = new ArrayAdapter(quanlythu.this, android.R.layout.simple_spinner_item,list);
+                            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+                            SpinnerMucchi.setAdapter(adapter);
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(quanlythu.this, error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+        requestQueue.add(jsonArrayRequest);
+    }
+    public void Taikhoan(String url1)
+    {
+        list1=new ArrayList<>();
+        final RequestQueue requestQueue = Volley.newRequestQueue(this);
+        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url1, null,
+                new Response.Listener<JSONArray>(){
+
+                    @Override
+
+                    public void onResponse(JSONArray response) {
+                        for(int i = 0; i<response.length(); i++){
+                            try {
+                                JSONObject obj = response.getJSONObject(i);
+                                {
+                                    list1.add(obj.getString("accountName"));
+
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            ArrayAdapter<String> adapter = new ArrayAdapter(quanlythu.this, android.R.layout.simple_spinner_item,list1);
+                            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+                            SpinnerTaikhoan.setAdapter(adapter);
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(quanlythu.this, error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+        requestQueue.add(jsonArrayRequest);
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -100,7 +181,40 @@ public class quanlythu extends AppCompatActivity
         getMenuInflater().inflate(R.menu.quanlythu, menu);
         return true;
     }
+    private void InsertExpense(final String Key,final String KeySpinnerTaikhoan,final String KeySpninerMuccchi){
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlInsert, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if((response.trim()).equals("success")){
+                    Toast.makeText(quanlythu.this,"Thêm thành công",Toast.LENGTH_LONG).show();
 
+                }else{
+                    Toast.makeText(quanlythu.this,"Thêm thất bại!!!",Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(quanlythu.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("accountID",Key+"-"+KeySpinnerTaikhoan);
+                params.put("Giatri",Giatri.getText().toString());
+                params.put("Mucchi",KeySpninerMuccchi );
+                params.put("Ngaychi", Ngaychi.getText().toString());
+                params.put("Ghichu", Ghichu.getText().toString());
+                params.put("Hangmuc", "Thu");
+                params.put("Denai",Tuai.getText().toString());
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -127,5 +241,7 @@ public class quanlythu extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    protected void LoadKhoanthu(String url) {
     }
 }

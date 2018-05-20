@@ -41,11 +41,18 @@ public class register extends AppCompatActivity {
         Username=(EditText) findViewById(R.id.txtUsername) ;
         Email=(EditText) findViewById(R.id.txtEmail) ;
         Password=(EditText) findViewById(R.id.txtPassword) ;
-        SignUp=(Button) findViewById(R.id.btn_signUp) ;
+        SignUp=(Button) findViewById(R.id.btn_Luulai) ;
         SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SignUp(url,Username.getText().toString().trim());
+                if(Username.getText().toString().equals("")||Email.getText().toString().equals("")||Password.getText().toString().equals(""))
+                {
+                        Toast.makeText(getBaseContext(),""+"Đăng kí thất bại, mời bạn kiểm tra lại",Toast.LENGTH_LONG).show();
+
+                }
+                else {
+                    SignUp(url, Username.getText().toString().trim());
+                }
 
             }
         });
@@ -54,10 +61,11 @@ public class register extends AppCompatActivity {
     }
 
     private void addTypeExpense(){
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        final RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, urlInsert, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
                 if((response.trim()).equals("success")){
                     Toast.makeText(register.this,"Thêm thành công",Toast.LENGTH_LONG).show();
 
@@ -101,13 +109,14 @@ public class register extends AppCompatActivity {
                                     {
                                         Toast.makeText(getBaseContext(),""+"Tài khoản đã tồn tại",Toast.LENGTH_LONG).show();
                                     }
-                                    else {
+                                    if (a!=(obj.getString("userName")))
+                                    {
                                         addTypeExpense();
-                                        Bundle mm = new Bundle();
-                                        mm.putString("Laytendangnhap","a");
-                                        Intent c = new Intent(register.this, menu.class);
-                                        c.putExtra("data", mm);
-                                        startActivity(c);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("Keys",Username.getText().toString().trim());
+                                        Intent intent = new Intent(register.this, menu.class);
+                                        intent.putExtra("getUser", bundle);
+                                        startActivity(intent);
                                     }
                                 }
 
@@ -128,8 +137,6 @@ public class register extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
 
     }
-
-
 
 }
 

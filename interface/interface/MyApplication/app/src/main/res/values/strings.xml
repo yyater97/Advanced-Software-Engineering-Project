@@ -22,4 +22,7 @@
     <string name="title_activity_quanlychi">quanlychi</string>
     <string name="title_activity_quanlythu">quanlythu</string>
     <string name="title_activity_taikhoan">taikhoan</string>
+    <string name="title_activity_baocao">baocao</string>
+    <string name="title_activity_baocaothu_account">baocaothuAccount</string>
+    <string name="title_activity_thuchi">thuchi</string>
 </resources>

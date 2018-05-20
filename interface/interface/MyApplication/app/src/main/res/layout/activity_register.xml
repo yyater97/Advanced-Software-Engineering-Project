@@ -28,7 +28,7 @@
             android:layout_height="533dp">
 
             <Button
-                android:id="@+id/btn_signUp"
+                android:id="@+id/btn_Luulai"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 

@@ -3,7 +3,8 @@
     package="com.learnadroid.myfirstapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -36,6 +37,14 @@
         <activity
             android:name=".quanlychi"
             android:label="@string/title_activity_quanlychi"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".baocaothuAccount"
+            android:label="@string/title_activity_baocaothu_account"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".thuchi"
+            android:label="@string/title_activity_thuchi"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

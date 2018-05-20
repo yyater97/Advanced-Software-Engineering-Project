@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -33,14 +32,14 @@ public class menu extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(menu.this, quanlychi.class);
+                startActivity(intent);
             }
         });
         // Lấy tên đăng nhập
         Intent a = getIntent();
-        Bundle Laytendangnhap = a.getBundleExtra("data");
-        final String GetTendangnhap=Laytendangnhap.getString("Laytendangnhap");
+        Bundle bundle = a.getBundleExtra("getUser");
+        final String Keys=bundle.getString("Keys");
         // Tạo menu chính
         for (int i = 0; i < mainGrid.getChildCount(); i++) {
             //You can see , all child item is CardView , so we just cast object to CardView
@@ -49,31 +48,28 @@ public class menu extends AppCompatActivity
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     {
                         if(finalI==0){
-                            Bundle LayTendangnhap = new Bundle();
-                            LayTendangnhap.putString("Laytendangnhap",GetTendangnhap);
-                            Intent i = new Intent(menu.this, taikhoan.class);
-                            i.putExtra("data", LayTendangnhap);
-                            startActivity(i);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("Keys",Keys);
+                            Intent intent = new Intent(menu.this, taikhoan.class);
+                            intent.putExtra("getUser", bundle);
+                            startActivity(intent);
+                        }
+                        if(finalI==2){
+                            Bundle bundle = new Bundle();
+                            bundle.putString("Keys",Keys);
+                            Intent intent = new Intent(menu.this, quanlythu.class);
+                            intent.putExtra("getUser", bundle);
+                            startActivity(intent);
                         }
                         if(finalI==3){
+                            Bundle bundle = new Bundle();
+                            bundle.putString("Keys",Keys);
                             Intent intent = new Intent(menu.this, quanlychi.class);
+                            intent.putExtra("getUser", bundle);
                             startActivity(intent);
-                            Bundle LayTendangnhap = new Bundle();
-                            LayTendangnhap.putString("Laytendangnhap",GetTendangnhap);
-                            Intent i = new Intent(menu.this, quanlychi.class);
-                            i.putExtra("data", LayTendangnhap);
-                            startActivity(i);}
-                        if(finalI==2){
-                            Intent intent = new Intent(menu.this, quanlythu.class);
-                            startActivity(intent);
-                            Bundle LayTendangnhap = new Bundle();
-                            LayTendangnhap.putString("Laytendangnhap",GetTendangnhap);
-                            Intent i = new Intent(menu.this, quanlythu.class);
-                            i.putExtra("data", LayTendangnhap);
-                            startActivity(i);}
+                        }
                     }
                 }
             });

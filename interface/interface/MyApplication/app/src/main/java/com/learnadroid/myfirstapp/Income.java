@@ -1,21 +1,22 @@
 package com.learnadroid.myfirstapp;
 
 /**
- * Created by QUANPN on 5/1/2018.
+ * Created by QUANPN on 5/19/2018.
  */
 
-public class Country {
-
+public class Income {
     private String countryName;
 
     // Image name (Without extension)
     private String flagName;
     private int population;
+    private String Date;
 
-    public Country(String countryName, String flagName, int population) {
+    public Income(String countryName, String flagName, int population,String date ) {
         this.countryName= countryName;
         this.flagName= flagName;
         this.population= population;
+        this.Date=date;
     }
 
     public int getPopulation() {
@@ -42,11 +43,16 @@ public class Country {
         this.flagName = flagName;
     }
 
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
+
     @Override
     public String toString()  {
         return this.countryName+" (Population: "+ this.population+")";
     }
 }
-
-
-

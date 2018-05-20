@@ -24,10 +24,21 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="491dp">
+            android:layout_height="515dp">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/floatingActionButton"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                app:backgroundTint="@color/colorPrimary"
+                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+                android:layout_alignBottom="@+id/btn_Xemcacgiaodich"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
 
             <Button
-                android:id="@+id/btn_Luulai"
+                android:id="@+id/button2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
@@ -39,7 +50,38 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif-medium"
-                android:text="SIGN UP"
+                android:text="XEM CÁC GIAO DỊCH"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btn_Xemcacgiaodich"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="17dp"
+                android:background="@color/colorPrimary"
+                android:fontFamily="sans-serif-medium"
+                android:text="XEM CÁC GIAO DỊCH"
+                android:textColor="@color/white"
+                android:layout_below="@+id/button2"
+                android:layout_alignLeft="@+id/button2"
+                android:layout_alignStart="@+id/button2"
+                android:layout_alignRight="@+id/button2"
+                android:layout_alignEnd="@+id/button2" />
+
+            <Button
+                android:id="@+id/btn_Xoataikhoan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_above="@+id/btn_Xemcacgiaodich"
+                android:layout_alignEnd="@+id/button2"
+                android:layout_alignLeft="@+id/button2"
+                android:layout_alignRight="@+id/button2"
+                android:layout_alignStart="@+id/button2"
+                android:background="@color/colorPrimary"
+                android:fontFamily="sans-serif-medium"
+                android:text="XÓA TÀI KHOẢN"
                 android:textColor="@color/white" />
 
             <LinearLayout
@@ -62,13 +104,12 @@
                     android:tint="@color/white" />
 
                 <TextView
-                    android:id="@+id/txtLogin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="sans-serif-medium"
-                    android:text="LOGIN"
+                    android:text="THAY ĐỔI TÀI KHOẢN"
                     android:textColor="@color/white"
                     android:textSize="22sp" />
 
@@ -100,17 +141,20 @@
                     android:background="@color/colorPrimary"
                     android:padding="8dp"
                     android:src="@drawable/img_user"
-                    android:tint="@color/white" />
+                    android:tint="@color/white"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
                 <EditText
-                    android:id="@+id/txtUsername"
+                    android:id="@+id/txtTentaikhoan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/imgView_userIcon"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/imgView_userIcon"
                     android:background="@color/editTextBG"
-                    android:hint="Username"
+                    android:hint="Tên tài khoản"
                     android:paddingLeft="20dp"
                     android:textSize="15sp" />
 
@@ -121,12 +165,12 @@
                 android:id="@+id/relativeLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/relativeLayout1"
-                android:layout_alignLeft="@+id/relativeLayout1"
-                android:layout_alignRight="@+id/relativeLayout1"
-                android:layout_alignStart="@+id/relativeLayout1"
+                android:layout_marginTop="17dp"
                 android:layout_below="@+id/relativeLayout1"
-                android:layout_marginTop="31dp">
+                android:layout_alignLeft="@+id/relativeLayout1"
+                android:layout_alignStart="@+id/relativeLayout1"
+                android:layout_alignRight="@+id/relativeLayout1"
+                android:layout_alignEnd="@+id/relativeLayout1">
 
                 <ImageView
                     android:id="@+id/imgView_passwordIcon"
@@ -141,20 +185,19 @@
                     android:tint="@color/white" />
 
                 <EditText
-                    android:id="@+id/txtPassword"
+                    android:id="@+id/txtSodubandau"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/imgView_passwordIcon"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/imgView_passwordIcon"
                     android:background="@color/editTextBG"
-                    android:hint="Password"
-                    android:inputType="textPassword"
+                    android:hint="Số dư ban đầu"
+                    android:inputType="number"
                     android:paddingLeft="20dp"
                     android:textSize="15sp" />
 
             </RelativeLayout>
-
 
             <Button
                 android:id="@+id/btn_Thaydoithongtin"
@@ -166,10 +209,10 @@
                 android:layout_alignRight="@+id/relativeLayout2"
                 android:layout_alignStart="@+id/relativeLayout2"
                 android:layout_below="@+id/relativeLayout2"
-                android:layout_marginTop="31dp"
+                android:layout_marginTop="12dp"
                 android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif-medium"
-                android:text="SIGN IN"
+                android:text="THAY ĐỔI THÔNG TIN"
                 android:textColor="@color/white" />
 
         </RelativeLayout>
