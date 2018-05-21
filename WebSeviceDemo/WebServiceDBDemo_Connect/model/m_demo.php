@@ -3,8 +3,8 @@
 	class m_demo extends database{
 		
 		//Lay gia tri cac hang muc chi tieu
-		function getTypeExpense(){
-			$sql = "SELECT * FROM demoregister";
+		function getTypeExpense($type_expenseName){
+			$sql = "SELECT * FROM type_expense WHERE type_expenseName = '$$type_expenseName'";
 			$this->setQuery($sql);
 			return $this->loadAllRows();
 		}

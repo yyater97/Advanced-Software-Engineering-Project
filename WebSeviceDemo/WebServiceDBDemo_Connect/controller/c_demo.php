@@ -2,9 +2,9 @@
 	include('model/m_demo.php');
 
 	class c_demo{
-		public function selectTypeExpense(){
+		public function selectTypeExpense($type_expenseName){
 			$m_Demo = new m_demo();
-			$typeExpense = $m_Demo->getTypeExpense();
+			$typeExpense = $m_Demo->getTypeExpense($type_expenseName);
 			return array('typeExpense'=>$typeExpense);
 		}
 
