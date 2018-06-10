@@ -204,7 +204,7 @@
                 android:layout_alignEnd="@+id/relativeLayout8">
 
                 <ImageView
-                    android:id="@+id/imgView_emailIcon"
+                    android:id="@+id/imgView_emailIco"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@color/colorPrimary"
@@ -217,13 +217,16 @@
                     android:id="@+id/txt_Denai"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/imgView_emailIcon"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/imgView_emailIcon"
                     android:background="@color/editTextBG"
                     android:hint="Đến ai?"
                     android:paddingLeft="20dp"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toRightOf="@+id/imgView_emailIco"
+                    android:layout_toEndOf="@+id/imgView_emailIco"
+                    android:layout_alignBottom="@+id/imgView_emailIco" />
 
             </RelativeLayout>
             <RelativeLayout
@@ -239,7 +242,7 @@
                 android:layout_alignEnd="@+id/relativeLayout4">
 
                 <ImageView
-                    android:id="@+id/imgView_emailIcon"
+                    android:id="@+id/imgView_emailIcon1"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@color/colorPrimary"
@@ -252,27 +255,29 @@
                     android:id="@+id/txt_Ghichu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/imgView_emailIcon"
                     android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/imgView_emailIcon"
                     android:background="@color/editTextBG"
                     android:hint="Ghi chú"
                     android:paddingLeft="20dp"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:layout_toRightOf="@+id/imgView_emailIcon1"
+                    android:layout_toEndOf="@+id/imgView_emailIcon1"
+                    android:layout_alignBottom="@+id/imgView_emailIcon1" />
 
             </RelativeLayout>
+
             <Button
                 android:id="@+id/btn_Luulai"
-                android:layout_width="250dp"
+                android:layout_width="279dp"
                 android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/relativeLayout11"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/relativeLayout11"
+                android:layout_marginBottom="17dp"
                 android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif-medium"
                 android:text="LƯU LẠI"
-                android:textColor="@color/white"
-                android:layout_marginBottom="17dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignLeft="@+id/relativeLayout11"
-                android:layout_alignStart="@+id/relativeLayout11" />
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/textView3"

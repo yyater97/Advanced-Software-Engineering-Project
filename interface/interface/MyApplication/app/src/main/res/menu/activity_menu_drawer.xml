@@ -27,7 +27,7 @@
             android:icon="@android:drawable/btn_star_big_on"
             android:title="Danh sách thu tiền" />
         <item
-            android:id="@+id/Danhsachchi"
+            android:id="@+id/danhsachchi"
             android:icon="@android:drawable/ic_menu_agenda"
             android:title="Danh sách chi tiền" />
         <item

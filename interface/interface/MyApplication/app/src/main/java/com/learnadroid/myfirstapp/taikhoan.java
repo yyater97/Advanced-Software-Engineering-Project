@@ -25,7 +25,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -45,12 +44,14 @@ public class taikhoan extends AppCompatActivity
     private ListView lvTypeExpenseList;
     private ArrayList<Country> arrayTypeExpense;
     CustomListAdapter adapter;
+    TextView textViewThu,textViewChi;
     EditText Username,Balance,UserChangeAccount,BalanceChangeAccount;
     Button Btn_InsertAccount,Btn_exit,Btn_Thaydoithongtin,Btn_Xemcacgiadich;
-
     String url = "https://quanpn.000webhostapp.com/manage/selectAccount.php";
     String urlInsert = "https://quanpn.000webhostapp.com/manage/insertAccount.php";
     String urlUdpate = "https://quanpn.000webhostapp.com/manage/updateAccount.php";
+    String urlSelect = "https://quanpn.000webhostapp.com/manage/select.php";
+    String urlSelectIncome = "https://quanpn.000webhostapp.com/manage/selectIncome.php";
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,57 +65,75 @@ public class taikhoan extends AppCompatActivity
         dialog = new Dialog(taikhoan.this);
         dialogChangeAccount=new Dialog(taikhoan.this);
         // khởi tạo dialog
+        Toast.makeText(taikhoan.this,Keys,Toast.LENGTH_LONG).show();
         dialog.setContentView(R.layout.activity_registertaikhoan);
         dialogChangeAccount.setContentView(R.layout.activity_changeaccount);
         Tentaikhoan=(EditText) dialog.findViewById(R.id.txtTentaikhoan) ;
         Username=(EditText) dialog.findViewById(R.id.txtAccount);
         Balance=(EditText) dialog.findViewById(R.id.txtBalance) ;
-        Btn_InsertAccount=(Button) dialog.findViewById(R.id.btn_Thaydoithongtin) ;
-        Btn_Thaydoithongtin=(Button) dialogChangeAccount.findViewById(R.id.btn_Thaydoithongtin);
+        Btn_InsertAccount=(Button) dialog.findViewById(R.id.btn_Xoa) ;
+        Btn_Thaydoithongtin=(Button) dialogChangeAccount.findViewById(R.id.btn_Xoa);
         UserChangeAccount=(EditText) dialogChangeAccount.findViewById(R.id.txtTentaikhoan);
         BalanceChangeAccount=(EditText) dialogChangeAccount.findViewById(R.id.txtSodubandau);
         Btn_Xemcacgiadich=(Button) dialogChangeAccount.findViewById(R.id.btn_Xemcacgiaodich);
        final List<Country> image_details = new ArrayList<Country>();
         final ListView listView = (ListView) findViewById(R.id.listView1);
         final List<Country> list=new ArrayList<Country>();
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>(){
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        for(int i = 0; i<response.length(); i++){
-                            try {
-                                JSONObject obj = response.getJSONObject(i);
+        textViewThu=(TextView) dialogChangeAccount.findViewById(R.id.textViewThu) ;
+        textViewChi=(TextView) dialogChangeAccount.findViewById(R.id.textViewChi) ;
+        final RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+
+                    JSONArray arr = new JSONArray(response);
+                    for (int i = 0; i < arr.length(); i++) {
+                        try {
+                            JSONObject obj = arr.getJSONObject(i);
+                            {
                                 image_details.add(new Country(obj.getString("accountName"),"user",Integer.parseInt(obj.getString("balance"))));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
-                            listView.setAdapter(new CustomListAdapter(taikhoan.this, image_details));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-
+                        listView.setAdapter(new CustomListAdapter(taikhoan.this, image_details));
                     }
-                },
-                new Response.ErrorListener(){
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(taikhoan.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
                 }
-        );
-        requestQueue.add(jsonArrayRequest);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(taikhoan.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("userID",Keys);
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
                 TextView textViewCountry=(TextView) v.findViewById(R.id.textView_countryName) ;
                 TextView textViewBalance=(TextView) v.findViewById(R.id.textView_population) ;
+                textViewChi.setText("0");
+                textViewThu.setText("0");
                UserChangeAccount.setText(textViewCountry.getText().toString());
-                BalanceChangeAccount.setText(Remove(textViewBalance.getText().toString()));
+                SelectThu(Keys+"-"+textViewCountry.getText().toString().trim());
+                SelectChi(Keys+"-"+textViewCountry.getText().toString().trim());
+                BalanceChangeAccount.setText(String.valueOf(Remove(textViewBalance.getText().toString())));
                 Btn_Thaydoithongtin.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                    updateAccount(Keys);
+                    updateAccount(Keys,UserChangeAccount.getText().toString(),BalanceChangeAccount.getText().toString());
                     }
                 });
                 Btn_Xemcacgiadich.setOnClickListener(new View.OnClickListener() {
@@ -122,8 +141,12 @@ public class taikhoan extends AppCompatActivity
                     public void onClick(View v) {
                         Bundle bundle = new Bundle();
                         bundle.putString("Keys",Keys+"-"+UserChangeAccount.getText().toString());
-                        Intent intent = new Intent(taikhoan.this, thuchi.class);
+                        Intent intent = new Intent(taikhoan.this, baocaothuAccount.class);
                         intent.putExtra("getUser", bundle);
+                        bundle.putString("Keys1",Keys);
+                        intent.putExtra("getUser1",bundle);
+                        bundle.putString("Keys2",UserChangeAccount.getText().toString());
+                        intent.putExtra("getUser2",bundle);
                         startActivity(intent);
                     }
                 });
@@ -147,32 +170,41 @@ public class taikhoan extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                        insertAccount(url,Username.getText().toString(),Keys);
-                        RequestQueue requestQueue = Volley.newRequestQueue(taikhoan.this);
-                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-                                new Response.Listener<JSONArray>(){
-                                    @Override
-                                    public void onResponse(JSONArray response) {
-                                        for(int i = 0; i<response.length(); i++){
-                                            try {
-                                                JSONObject obj = response.getJSONObject(i);
+                        listView.setAdapter(new CustomListAdapter(taikhoan.this, list));
+                        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONArray arr = new JSONArray(response);
+                                    for (int i = 0; i < arr.length(); i++) {
+                                        try {
+                                            JSONObject obj = arr.getJSONObject(i);
+                                            {
                                                 list.add(new Country(obj.getString("accountName"),"user",Integer.parseInt(obj.getString("balance"))));
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
                                             }
-                                            listView.setAdapter(new CustomListAdapter(taikhoan.this, list));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
                                         }
-
+                                        listView.setAdapter(new CustomListAdapter(taikhoan.this, list));
                                     }
-                                },
-                                new Response.ErrorListener(){
-
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Toast.makeText(taikhoan.this, error.toString(), Toast.LENGTH_LONG).show();
-                                    }
+                                } catch (JSONException ex) {
+                                    ex.printStackTrace();
                                 }
-                        );
-                        requestQueue.add(jsonArrayRequest);
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(taikhoan.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+                            }
+                        }){
+                            @Override
+                            protected Map<String, String> getParams() throws AuthFailureError {
+                                Map<String,String> params = new HashMap<>();
+                                params.put("userID",Keys);
+                                return params;
+                            }
+                        };
+                        requestQueue.add(stringRequest);
                     }
                 });
 
@@ -186,8 +218,7 @@ public class taikhoan extends AppCompatActivity
             }
         });
     }
-
-    private void updateAccount(final String Key){
+    private void updateAccount(final String Key, final String a, final String b){
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, urlUdpate, new Response.Listener<String>() {
             @Override
@@ -208,9 +239,9 @@ public class taikhoan extends AppCompatActivity
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
-                params.put("accountID","-ví");
-                params.put("accountName","qqqq");
-                params.put("balance","qqq");
+                params.put("accountID",Key+"-"+a);
+                params.put("accountName",a);
+                params.put("balance", b);
                 return params;
             }
         };
@@ -242,6 +273,7 @@ public class taikhoan extends AppCompatActivity
                 params.put("userID",Key);
                 params.put("accountName", Username.getText().toString());
                 params.put("balance", Balance.getText().toString());
+
                 return params;
             }
         };
@@ -257,48 +289,138 @@ public class taikhoan extends AppCompatActivity
             super.onBackPressed();
         }
     }
+
     protected void insertAccount(String url, final String a,final String b){
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
-        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
 
-                    @Override
-
-                    public void onResponse(JSONArray response) {
-                        for(int i = 0; i<response.length(); i++){
-                            try {
-                                JSONObject obj = response.getJSONObject(i);
+                    JSONArray arr = new JSONArray(response);
+                    for (int i = 0; i < arr.length(); i++) {
+                        try {
+                            JSONObject obj = arr.getJSONObject(i);
+                            {
+                                if((b+"-"+a).equals(obj.getString("accountID")))
                                 {
-                                    if((b+"-"+a).equals(obj.getString("accountID")))
-                                    {
-                                        Toast.makeText(getBaseContext(),""+"Tài khoản đã tồn tại",Toast.LENGTH_LONG).show();
-                                    }
-                                    else
-                                    {
-                                        addTypeExpense(b);
-                                    }
+                                    Toast.makeText(getBaseContext(),""+"Tài khoản đã tồn tại",Toast.LENGTH_LONG).show();
                                 }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                else
+                                {
+                                    addTypeExpense(b);
+                                }
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                     }
-                },
-                new Response.ErrorListener(){
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(taikhoan.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
                 }
-        );
-        requestQueue.add(jsonArrayRequest);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(taikhoan.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("userID",b);
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+
+    }
+    public void SelectThu(final String Keys)
+    {
+
+        final RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlSelect, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    int Ketqua=0;
+                    JSONArray arr = new JSONArray(response);
+                    for (int i = 0; i < arr.length(); i++) {
+                        try {
+                            JSONObject obj = arr.getJSONObject(i);
+                            {
+
+                                    Ketqua+=obj.getInt("Giatri");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        textViewThu.setText(String.valueOf(Ketqua));
+                    }
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(taikhoan.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("accountID",Keys);
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+
+    }
+    public void SelectChi(final String Keys)
+    {
+
+        final RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlSelectIncome, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    int Ketqua=0;
+                    JSONArray arr = new JSONArray(response);
+                    for (int i = 0; i < arr.length(); i++) {
+                        try {
+                            JSONObject obj = arr.getJSONObject(i);
+                            {
+                                Ketqua+=obj.getInt("Giatri");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        textViewChi.setText(String.valueOf(Ketqua));
+                    }
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(taikhoan.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("accountID",Keys);
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
 
     }
     public String Remove(String String)
     {
-        String=String.replace("Population: ","");
+        String=String.replace("Số dư ban đầu: ","");
         String=String.replace(" Đ","");
         return String;
     }
@@ -317,9 +439,7 @@ public class taikhoan extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -329,7 +449,92 @@ public class taikhoan extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        if (id == R.id.danhsachchi) {
+            Intent intent=new Intent(taikhoan.this,Danhmucchi.class);
+            startActivity(intent);
+        }
+        else if(id==R.id.danhsachthu)
+        {
+            Intent intent=new Intent(taikhoan.this,activity_Danhsachthu.class);
+            startActivity(intent);
+        }
+        else if(id==R.id.trangchu)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(taikhoan.this, menu.class);
+            intent.putExtra("getUser", bundle);
+            startActivity(intent);
+        }
+        else if(id==R.id.Baocao)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(taikhoan.this, baocao.class);
+            intent.putExtra("getUser", bundle);
+            startActivity(intent);
+        }
+        else if(id==R.id.lich)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(taikhoan.this, datetime.class);
+            intent.putExtra("getUser", bundle);
+            startActivity(intent);
+        }
+        else if(id==R.id.quanlythu)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(taikhoan.this, quanlythu.class);
+            intent.putExtra("getUser", bundle);
+            startActivity(intent);
+        }
+        else if(id==R.id.quanlychi)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(taikhoan.this, quanlychi.class);
+            intent.putExtra("getUser", bundle);
+            startActivity(intent);
+        }
+        else if(id==R.id.cactaikhoan)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(taikhoan.this, taikhoan.class);
+            intent.putExtra("getUser", bundle);
+            startActivity(intent);
+        }
+        else if(id==R.id.tracuu)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(taikhoan.this, tracutygia.class);
+            intent.putExtra("getUser", bundle);
+            startActivity(intent);
+        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

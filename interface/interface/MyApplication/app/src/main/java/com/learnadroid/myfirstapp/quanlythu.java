@@ -65,16 +65,8 @@ public class quanlythu extends AppCompatActivity
         Tuai=(EditText) findViewById(R.id.txt_Denai);
         Luulai=(Button) findViewById(R.id.btn_Luulai);
         Mucthu(url);
-        Taikhoan(urlAccount);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(quanlythu.this,menu.class);
-                startActivity(intent);
-            }
-        });
+        Taikhoan(urlAccount,Keys);
+      
         Luulai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +98,6 @@ public class quanlythu extends AppCompatActivity
                                 JSONObject obj = response.getJSONObject(i);
                                 {
                                     list.add(obj.getString("type_incomeName"));
-
                                 }
 
                             } catch (JSONException e) {
@@ -128,42 +119,48 @@ public class quanlythu extends AppCompatActivity
         );
         requestQueue.add(jsonArrayRequest);
     }
-    public void Taikhoan(String url1)
+
+    public void Taikhoan(String url1,final String Keys)
     {
         list1=new ArrayList<>();
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
-        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url1, null,
-                new Response.Listener<JSONArray>(){
-
-                    @Override
-
-                    public void onResponse(JSONArray response) {
-                        for(int i = 0; i<response.length(); i++){
-                            try {
-                                JSONObject obj = response.getJSONObject(i);
-                                {
-                                    list1.add(obj.getString("accountName"));
-
-                                }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray arr = new JSONArray(response);
+                    for(int i = 0; i<response.length(); i++){
+                        try {
+                            JSONObject obj = arr.getJSONObject(i);
+                            {
+                                list1.add(obj.getString("accountName"));
                             }
-                            ArrayAdapter<String> adapter = new ArrayAdapter(quanlythu.this, android.R.layout.simple_spinner_item,list1);
-                            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-                            SpinnerTaikhoan.setAdapter(adapter);
-                        }
-                    }
-                },
-                new Response.ErrorListener(){
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(quanlythu.this, error.toString(), Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter<String> adapter = new ArrayAdapter(quanlythu.this, android.R.layout.simple_spinner_item,list1);
+                        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+                        SpinnerTaikhoan.setAdapter(adapter);
                     }
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
                 }
-        );
-        requestQueue.add(jsonArrayRequest);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(quanlythu.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("userID",Keys);
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
     @Override
     public void onBackPressed() {
@@ -207,8 +204,8 @@ public class quanlythu extends AppCompatActivity
                 params.put("Mucchi",KeySpninerMuccchi );
                 params.put("Ngaychi", Ngaychi.getText().toString());
                 params.put("Ghichu", Ghichu.getText().toString());
-                params.put("Hangmuc", "Thu");
                 params.put("Denai",Tuai.getText().toString());
+                params.put("userID",Key);
                 return params;
             }
         };
@@ -223,9 +220,7 @@ public class quanlythu extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -235,7 +230,92 @@ public class quanlythu extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        if (id == R.id.danhsachchi) {
+            Intent intent=new Intent(quanlythu.this,Danhmucchi.class);
+            startActivity(intent);
+        }
+        else if(id==R.id.danhsachthu)
+        {
+            Intent intent=new Intent(quanlythu.this,activity_Danhsachthu.class);
+            startActivity(intent);
+        }
+        else if(id==R.id.trangchu)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(quanlythu.this, menu.class);
+            intent.putExtra("getUser", bundle);
+            startActivity(intent);
+        }
+        else if(id==R.id.Baocao)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(quanlythu.this, baocao.class);
+            intent.putExtra("getUser", bundle);
+            startActivity(intent);
+        }
+        else if(id==R.id.lich)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(quanlythu.this, datetime.class);
+            intent.putExtra("getUser", bundle);
+            startActivity(intent);
+        }
+        else if(id==R.id.quanlythu)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(quanlythu.this, quanlythu.class);
+            intent.putExtra("getUser", bundle);
+            startActivity(intent);
+        }
+        else if(id==R.id.quanlychi)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(quanlythu.this, quanlychi.class);
+            intent.putExtra("getUser", bundle);
+            startActivity(intent);
+        }
+        else if(id==R.id.cactaikhoan)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(quanlythu.this, taikhoan.class);
+            intent.putExtra("getUser", bundle);
+            startActivity(intent);
+        }
+        else if(id==R.id.tracuu)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(quanlythu.this, tracutygia.class);
+            intent.putExtra("getUser", bundle);
+            startActivity(intent);
+        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

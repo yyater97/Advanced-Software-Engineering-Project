@@ -9,10 +9,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +36,8 @@ import java.util.Map;
 public class thuchi extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     String urlInsert = "https://quanpn.000webhostapp.com/manage/select.php";
-    TextView textView;
+    TextView textView,textView1;
+    GridLayout mainGrid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +56,28 @@ public class thuchi extends AppCompatActivity
             }
         });
         textView=(TextView) findViewById(R.id.textViewChi);
+        textView1=(TextView) findViewById(R.id.textViewthu);
+        for (int i = 0; i < mainGrid.getChildCount(); i++) {
+            //You can see , all child item is CardView , so we just cast object to CardView
+            CardView cardView = (CardView) mainGrid.getChildAt(i);
+            final int finalI = i;
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    {
+                        if(finalI==0){
+                            Intent intent=new Intent(thuchi.this,baocaothuAccount.class);
+                            startActivity(intent);
+                        }
+                        if(finalI==2){
+                            Intent intent=new Intent(thuchi.this,baocaothuAccount.class);
+                            startActivity(intent);
+                        }
+
+                    }
+                }
+            });
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -100,19 +125,6 @@ public class thuchi extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -132,7 +144,7 @@ public class thuchi extends AppCompatActivity
                             try {
                                 JSONObject obj = response.getJSONObject(i);
                                 {
-                                    textView.setText(obj.getString("accountID"));
+                                    textView.setText(obj.getString("Giatri"));
                                 }
 
                             } catch (JSONException e) {
@@ -152,7 +164,7 @@ public class thuchi extends AppCompatActivity
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
-                params.put("accountID","-ngân hàng");
+
                 return params;
             }
         };

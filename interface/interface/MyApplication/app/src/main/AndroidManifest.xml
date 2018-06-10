@@ -7,8 +7,8 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@mipmap/b"
+        android:label="Quản lý tài chính cá nhân"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -24,27 +24,55 @@
         <activity android:name=".quanlytaikhoan" />
         <activity
             android:name=".menu"
-            android:label="@string/title_activity_menu"
+            android:label="Trang chủ"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".quanlythu"
-            android:label="@string/title_activity_quanlythu"
+            android:label="Quản lý thu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".taikhoan"
-            android:label="@string/title_activity_taikhoan"
+            android:label="Tài khoản"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".quanlychi"
-            android:label="@string/title_activity_quanlychi"
+            android:label="Quản lý chi"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".baocaothuAccount"
-            android:label="@string/title_activity_baocaothu_account"
+            android:label="Báo cáo tài khoản"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".thuchi"
             android:label="@string/title_activity_thuchi"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity_Danhsachthu"
+            android:label="Danh sách thu tiền"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Danhmucchi"
+            android:label="Danh sách chi tiền"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".baocao"
+            android:label="Báo cáo"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".mainbaocao"
+            android:label="Báo cáo"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".tracutygia"
+            android:label="Tra cứu tỷ giá"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".datetime"
+            android:label="@string/title_activity_datetime"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".hangmucdatetime"
+            android:label="Báo cáo theo ngày"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

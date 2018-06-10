@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity  {
 
         setContentView(R.layout.activity_main);
 
-        SingIn=(Button) findViewById(R.id.btn_Thaydoithongtin);
+        SingIn=(Button) findViewById(R.id.btn_Xoa);
         SingUp=(Button) findViewById(R.id.btn_Luulai);
        Username=(EditText) findViewById(R.id.txtUsername);
        Password=(EditText) findViewById(R.id.txtPassword);

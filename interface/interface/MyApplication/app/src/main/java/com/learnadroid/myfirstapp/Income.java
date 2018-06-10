@@ -11,12 +11,22 @@ public class Income {
     private String flagName;
     private int population;
     private String Date;
+    private int Magiaodich;
 
-    public Income(String countryName, String flagName, int population,String date ) {
+    public Income(String countryName, String flagName, int population,String date,int MaGD ) {
         this.countryName= countryName;
         this.flagName= flagName;
         this.population= population;
         this.Date=date;
+        this.Magiaodich=MaGD;
+    }
+
+    public int getMagiaodich() {
+        return Magiaodich;
+    }
+
+    public void setMagiaodich(int magiaodich) {
+        Magiaodich = magiaodich;
     }
 
     public int getPopulation() {

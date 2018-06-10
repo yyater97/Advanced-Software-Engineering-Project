@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="380dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="251dp">
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/piechartThu"
+            android:layout_width="200dp"
+            android:layout_height="250dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/imageView18"
+            android:layout_toRightOf="@+id/imageView18" />
+
+        <ImageView
+            android:id="@+id/imageView18"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignLeft="@+id/imageView12"
+            android:layout_alignStart="@+id/imageView12"
+            android:layout_below="@+id/imageView12"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@android:color/holo_green_dark" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView10"
+            android:layout_alignLeft="@+id/textView15"
+            android:layout_alignStart="@+id/textView15"
+            android:text="Phát triển bản thân"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView4"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/imageView4"
+            android:layout_toRightOf="@+id/imageView4"
+            android:text="Ăn uống, mua sắm"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignLeft="@+id/imageView10"
+            android:layout_alignStart="@+id/imageView10"
+            android:layout_below="@+id/imageView10"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@android:color/holo_orange_dark" />
+
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignLeft="@+id/imageView19"
+            android:layout_alignStart="@+id/imageView19"
+            android:layout_below="@+id/imageView19"
+            android:layout_marginTop="11dp"
+            app:srcCompat="@android:color/holo_orange_light" />
+
+        <ImageView
+            android:id="@+id/imageView20"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignLeft="@+id/imageView11"
+            android:layout_alignStart="@+id/imageView11"
+            android:layout_below="@+id/imageView11"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@android:color/holo_blue_dark" />
+
+        <ImageView
+            android:id="@+id/imageView21"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignLeft="@+id/imageView20"
+            android:layout_alignStart="@+id/imageView20"
+            android:layout_below="@+id/imageView20"
+            android:layout_marginTop="11dp"
+            app:srcCompat="?attr/colorAccent" />
+
+        <ImageView
+            android:id="@+id/imageView19"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignLeft="@+id/imageView18"
+            android:layout_alignStart="@+id/imageView18"
+            android:layout_centerVertical="true"
+            app:srcCompat="@android:color/holo_purple" />
+
+        <ImageView
+            android:id="@+id/imageView12"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignLeft="@+id/imageView9"
+            android:layout_alignStart="@+id/imageView9"
+            android:layout_below="@+id/imageView9"
+            android:layout_marginTop="12dp"
+            app:srcCompat="@android:color/holo_blue_bright" />
+
+        <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignLeft="@+id/imageView4"
+            android:layout_alignStart="@+id/imageView4"
+            android:layout_below="@+id/imageView4"
+            android:layout_marginTop="11dp"
+            app:srcCompat="@android:color/darker_gray" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="19dp"
+            app:srcCompat="@android:color/holo_red_dark" />
+
+        <ImageView
+            android:id="@+id/imageView29"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="19dp"
+            app:srcCompat="@android:color/holo_red_dark" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView17"
+            android:layout_alignStart="@+id/textView17"
+            android:layout_alignTop="@+id/imageView9"
+            android:text="Dịch vụ sinh hoạt"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView19"
+            android:layout_alignLeft="@+id/textView28"
+            android:layout_alignStart="@+id/textView28"
+            android:text="Hiếu hỉ"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView29"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView20"
+            android:layout_alignLeft="@+id/textView30"
+            android:layout_alignStart="@+id/textView30"
+            android:text="Nhà cửa"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView31"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView21"
+            android:layout_alignLeft="@+id/textView29"
+            android:layout_alignStart="@+id/textView29"
+            android:text="Khác"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView11"
+            android:layout_alignLeft="@+id/textView28"
+            android:layout_alignStart="@+id/textView28"
+            android:text="Sức khỏe"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView28"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView18"
+            android:layout_alignLeft="@+id/textView20"
+            android:layout_alignStart="@+id/textView20"
+            android:text="Hưởng thụ"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đi lại"
+            android:textSize="8sp"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/imageView12"
+            android:layout_alignLeft="@+id/textView19"
+            android:layout_alignStart="@+id/textView19" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView34"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView33"
+            android:layout_alignLeft="@+id/textView38"
+            android:layout_alignStart="@+id/textView38"
+            android:text="Được cho/ tặng"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView38"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView34"
+            android:layout_alignLeft="@+id/textView39"
+            android:layout_alignStart="@+id/textView39"
+            android:text="Lãi tiết kiệm"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView39"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imageView30"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/imageView30"
+            android:layout_toRightOf="@+id/imageView30"
+            android:text="Khác"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView30"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignLeft="@+id/imageView34"
+            android:layout_alignStart="@+id/imageView34"
+            android:layout_below="@+id/imageView34"
+            android:layout_marginTop="11dp"
+            app:srcCompat="@android:color/holo_green_dark" />
+
+        <ImageView
+            android:id="@+id/imageView34"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignLeft="@+id/imageView33"
+            android:layout_alignStart="@+id/imageView33"
+            android:layout_below="@+id/imageView33"
+            android:layout_marginTop="11dp"
+            app:srcCompat="@android:color/holo_blue_dark" />
+
+        <ImageView
+            android:id="@+id/imageView33"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignLeft="@+id/imageView32"
+            android:layout_alignStart="@+id/imageView32"
+            android:layout_below="@+id/imageView32"
+            android:layout_marginTop="11dp"
+            app:srcCompat="@android:color/holo_orange_light" />
+
+        <TextView
+            android:id="@+id/textView37"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView34"
+            android:layout_alignStart="@+id/textView34"
+            android:layout_alignTop="@+id/imageView31"
+            android:text="Lương"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView32"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignLeft="@+id/imageView31"
+            android:layout_alignStart="@+id/imageView31"
+            android:layout_below="@+id/imageView31"
+            android:layout_marginTop="11dp"
+            app:srcCompat="@android:color/darker_gray" />
+
+        <ImageView
+            android:id="@+id/imageView31"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="19dp"
+            app:srcCompat="@android:color/holo_red_dark" />
+
+        <TextView
+            android:id="@+id/textView35"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/imageView33"
+            android:layout_alignLeft="@+id/textView34"
+            android:layout_alignStart="@+id/textView34"
+            android:text="Thưởng"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/piechartChi"
+            android:layout_width="200dp"
+            android:layout_height="250dp"
+            android:layout_alignParentTop="true"
+            android:layout_weight="0.95"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/textView39"
+            android:layout_alignLeft="@+id/textView34"
+            android:layout_alignStart="@+id/textView34" />
+    </RelativeLayout>
+</LinearLayout>

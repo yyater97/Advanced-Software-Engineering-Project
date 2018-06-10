@@ -25,4 +25,10 @@
     <string name="title_activity_baocao">baocao</string>
     <string name="title_activity_baocaothu_account">baocaothuAccount</string>
     <string name="title_activity_thuchi">thuchi</string>
+    <string name="title_activity__danhsachthu">activity_Danhsachthu</string>
+    <string name="title_activity_danhmucchi">Danhmucchi</string>
+    <string name="title_activity_mainbaocao">mainbaocao</string>
+    <string name="title_activity_tracutygia">tracutygia</string>
+    <string name="title_activity_datetime">datetime</string>
+    <string name="title_activity_hangmucdatetime">hangmucdatetime</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2c9031</color>
+    <color name="colorPrimary">#388720</color>
     <color name="colorPrimaryDark">#551B72</color>
     <color name="colorAccent">#FF4081</color>
     <color name="editTextBG">#DADADA</color>

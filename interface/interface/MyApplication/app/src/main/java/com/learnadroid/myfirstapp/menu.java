@@ -3,7 +3,6 @@ package com.learnadroid.myfirstapp;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -28,14 +27,7 @@ public class menu extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mainGrid = (GridLayout) findViewById(R.id.mainGrid);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(menu.this, quanlychi.class);
-                startActivity(intent);
-            }
-        });
+
         // Lấy tên đăng nhập
         Intent a = getIntent();
         Bundle bundle = a.getBundleExtra("getUser");
@@ -55,6 +47,14 @@ public class menu extends AppCompatActivity
                             Intent intent = new Intent(menu.this, taikhoan.class);
                             intent.putExtra("getUser", bundle);
                             startActivity(intent);
+
+                        }
+                        if(finalI==1){
+                            Bundle bundle = new Bundle();
+                            bundle.putString("Keys",Keys);
+                            Intent intent = new Intent(menu.this, baocao.class);
+                            intent.putExtra("getUser", bundle);
+                            startActivity(intent);
                         }
                         if(finalI==2){
                             Bundle bundle = new Bundle();
@@ -67,6 +67,20 @@ public class menu extends AppCompatActivity
                             Bundle bundle = new Bundle();
                             bundle.putString("Keys",Keys);
                             Intent intent = new Intent(menu.this, quanlychi.class);
+                            intent.putExtra("getUser", bundle);
+                            startActivity(intent);
+                        }
+                        if(finalI==4){
+                            Bundle bundle = new Bundle();
+                            bundle.putString("Keys",Keys);
+                            Intent intent = new Intent(menu.this, tracutygia.class);
+                            intent.putExtra("getUser", bundle);
+                            startActivity(intent);
+                        }
+                        if(finalI==5){
+                            Bundle bundle = new Bundle();
+                            bundle.putString("Keys",Keys);
+                            Intent intent = new Intent(menu.this, datetime.class);
                             intent.putExtra("getUser", bundle);
                             startActivity(intent);
                         }
@@ -123,10 +137,91 @@ public class menu extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.quanlychi) {
-            // Handle the camera action
-        } else if (id == R.id.quanlychi) {
-
+        if (id == R.id.danhsachchi) {
+            Intent intent=new Intent(menu.this,Danhmucchi.class);
+            startActivity(intent);
+        }
+        else if(id==R.id.danhsachthu)
+        {
+            Intent intent=new Intent(menu.this,activity_Danhsachthu.class);
+            startActivity(intent);
+        }
+        else if(id==R.id.trangchu)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(menu.this, menu.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
+        else if(id==R.id.Baocao)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(menu.this, baocao.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
+        else if(id==R.id.lich)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(menu.this, datetime.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
+        else if(id==R.id.quanlythu)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(menu.this, quanlythu.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
+        else if(id==R.id.quanlychi)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(menu.this, quanlychi.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
+        else if(id==R.id.cactaikhoan)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(menu.this, taikhoan.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
+        else if(id==R.id.tracuu)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(menu.this, tracutygia.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
         }
 
 

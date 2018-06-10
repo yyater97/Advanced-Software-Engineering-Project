@@ -70,9 +70,9 @@
                         android:layout_width="113dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/me_time"
-                        app:srcCompat="@drawable/taikhoan"
-                        android:layout_weight="0.91" />
+
+                        android:layout_weight="0.91"
+                        app:srcCompat="@drawable/taikhoan" />
 
                     <TextView
                         android:id="@+id/textView2"
@@ -112,7 +112,6 @@
                         android:layout_width="88dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/family_time"
                         app:srcCompat="@drawable/baocao" />
 
                     <TextView
@@ -155,7 +154,7 @@
                         android:layout_width="118dp"
                         android:layout_height="53dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/lovely_time"
+
                         app:srcCompat="@drawable/thutien" />
 
                     <TextView
@@ -195,7 +194,7 @@
                         android:layout_width="99dp"
                         android:layout_height="56dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/team_time"
+
                         app:srcCompat="@drawable/chitien" />
 
                     <TextView
@@ -238,7 +237,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="49dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/friends"
+
                         app:srcCompat="@drawable/search" />
 
                     <TextView
@@ -278,7 +277,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/calendar" />
+                        app:srcCompat="@mipmap/today" />
 
                     <TextView
                         android:layout_width="wrap_content"

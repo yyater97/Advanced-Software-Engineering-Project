@@ -49,7 +49,7 @@ public class quanlychi extends AppCompatActivity
    Button Luulai;
     private String url = "https://quanpn.000webhostapp.com/manage/selectKhoanchi.php";
     private String urlAccount = "https://quanpn.000webhostapp.com/manage/selectAccount.php";
-    private String urlInsert = "https://quanpn.000webhostapp.com/manage/insertExpense.php";
+    private String urlInsert = "https://quanpn.000webhostapp.com/manage/insertIncome.php";
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,21 +65,20 @@ public class quanlychi extends AppCompatActivity
         Ghichu=(EditText) findViewById(R.id.txt_Ghichu);
         Tuai=(EditText) findViewById(R.id.txt_Denai);
         Luulai=(Button) findViewById(R.id.btn_Luulai);
-        Taikhoan(urlAccount);
+        Taikhoan(urlAccount,Keys);
         Mucthu(url);
-        InsertExpense(Keys,SpinnerTaikhoan.getSelectedItem().toString(),SpinnerMucchi.getSelectedItem().toString());
+        Luulai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InsertExpense(Keys,SpinnerTaikhoan.getSelectedItem().toString(),SpinnerMucchi.getSelectedItem().toString());
+            }
+        });
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(quanlychi.this,menu.class);
-                startActivity(intent);
-            }
-        });
+      
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -115,10 +114,6 @@ public class quanlychi extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -158,42 +153,47 @@ public class quanlychi extends AppCompatActivity
         );
         requestQueue.add(jsonArrayRequest);
     }
-    public void Taikhoan(String url1)
+    public void Taikhoan(String url1,final String Keys)
     {
         list1=new ArrayList<>();
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
-        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url1, null,
-                new Response.Listener<JSONArray>(){
-
-                    @Override
-
-                    public void onResponse(JSONArray response) {
-                        for(int i = 0; i<response.length(); i++){
-                            try {
-                                JSONObject obj = response.getJSONObject(i);
-                                {
-                                    list1.add(obj.getString("accountName"));
-
-                                }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray arr = new JSONArray(response);
+                    for(int i = 0; i<response.length(); i++){
+                        try {
+                            JSONObject obj = arr.getJSONObject(i);
+                            {
+                                list1.add(obj.getString("accountName"));
                             }
-                            ArrayAdapter<String> adapter = new ArrayAdapter(quanlychi.this, android.R.layout.simple_spinner_item,list1);
-                            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-                            SpinnerTaikhoan.setAdapter(adapter);
-                        }
-                    }
-                },
-                new Response.ErrorListener(){
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(quanlychi.this, error.toString(), Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter<String> adapter = new ArrayAdapter(quanlychi.this, android.R.layout.simple_spinner_item,list1);
+                        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+                        SpinnerTaikhoan.setAdapter(adapter);
                     }
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
                 }
-        );
-        requestQueue.add(jsonArrayRequest);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(quanlychi.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("userID",Keys);
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
     private void InsertExpense(final String Key,final String KeySpinnerTaikhoan,final String KeySpninerMuccchi){
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -221,8 +221,8 @@ public class quanlychi extends AppCompatActivity
                 params.put("Mucchi",KeySpninerMuccchi );
                 params.put("Ngaychi", Ngaychi.getText().toString());
                 params.put("Ghichu", Ghichu.getText().toString());
-                params.put("Hangmuc", "Chi");
                 params.put("Denai",Tuai.getText().toString());
+                params.put("userID",Key);
                 return params;
             }
         };
@@ -234,20 +234,93 @@ public class quanlychi extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.danhsachchi) {
+            Intent intent=new Intent(quanlychi.this,Danhmucchi.class);
+            startActivity(intent);
         }
+        else if(id==R.id.danhsachthu)
+        {
+            Intent intent=new Intent(quanlychi.this,activity_Danhsachthu.class);
+            startActivity(intent);
+        }
+        else if(id==R.id.trangchu)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(quanlychi.this, menu.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
+        else if(id==R.id.Baocao)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(quanlychi.this, baocao.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
+        else if(id==R.id.lich)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(quanlychi.this, datetime.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
+        else if(id==R.id.quanlythu)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(quanlychi.this, quanlythu.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
+        else if(id==R.id.quanlychi)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(quanlychi.this, quanlychi.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
+        else if(id==R.id.cactaikhoan)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(quanlychi.this, taikhoan.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
+        else if(id==R.id.tracuu)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(quanlychi.this, tracutygia.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

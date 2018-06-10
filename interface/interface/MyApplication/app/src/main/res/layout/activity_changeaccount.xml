@@ -26,63 +26,21 @@
             android:layout_width="match_parent"
             android:layout_height="515dp">
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/floatingActionButton"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                app:backgroundTint="@color/colorPrimary"
-                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
-                android:layout_alignBottom="@+id/btn_Xemcacgiaodich"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_alignEnd="@+id/btn_Thaydoithongtin"
-                android:layout_alignLeft="@+id/btn_Thaydoithongtin"
-                android:layout_alignRight="@+id/btn_Thaydoithongtin"
-                android:layout_alignStart="@+id/btn_Thaydoithongtin"
-                android:layout_below="@+id/btn_Thaydoithongtin"
-                android:layout_marginTop="16dp"
-                android:background="@color/colorPrimary"
-                android:fontFamily="sans-serif-medium"
-                android:text="XEM CÁC GIAO DỊCH"
-                android:textColor="@color/white" />
-
             <Button
                 android:id="@+id/btn_Xemcacgiaodich"
-                android:layout_width="match_parent"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
 
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="13dp"
                 android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif-medium"
                 android:text="XEM CÁC GIAO DỊCH"
                 android:textColor="@color/white"
-                android:layout_below="@+id/button2"
-                android:layout_alignLeft="@+id/button2"
-                android:layout_alignStart="@+id/button2"
-                android:layout_alignRight="@+id/button2"
-                android:layout_alignEnd="@+id/button2" />
-
-            <Button
-                android:id="@+id/btn_Xoataikhoan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_above="@+id/btn_Xemcacgiaodich"
-                android:layout_alignEnd="@+id/button2"
-                android:layout_alignLeft="@+id/button2"
-                android:layout_alignRight="@+id/button2"
-                android:layout_alignStart="@+id/button2"
-                android:background="@color/colorPrimary"
-                android:fontFamily="sans-serif-medium"
-                android:text="XÓA TÀI KHOẢN"
-                android:textColor="@color/white" />
+                android:layout_below="@+id/btn_Xoa"
+                android:layout_alignLeft="@+id/btn_Xoa"
+                android:layout_alignStart="@+id/btn_Xoa"
+                android:layout_alignRight="@+id/btn_Xoa"
+                android:layout_alignEnd="@+id/btn_Xoa" />
 
             <LinearLayout
                 android:id="@+id/linearLayout1"
@@ -138,13 +96,13 @@
                     android:id="@+id/imgView_userIcon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
                     android:background="@color/colorPrimary"
                     android:padding="8dp"
                     android:src="@drawable/img_user"
-                    android:tint="@color/white"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:tint="@color/white" />
 
                 <EditText
                     android:id="@+id/txtTentaikhoan"
@@ -165,12 +123,12 @@
                 android:id="@+id/relativeLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="17dp"
-                android:layout_below="@+id/relativeLayout1"
+                android:layout_alignEnd="@+id/relativeLayout1"
                 android:layout_alignLeft="@+id/relativeLayout1"
-                android:layout_alignStart="@+id/relativeLayout1"
                 android:layout_alignRight="@+id/relativeLayout1"
-                android:layout_alignEnd="@+id/relativeLayout1">
+                android:layout_alignStart="@+id/relativeLayout1"
+                android:layout_below="@+id/relativeLayout1"
+                android:layout_marginTop="17dp">
 
                 <ImageView
                     android:id="@+id/imgView_passwordIcon"
@@ -181,8 +139,8 @@
                     android:layout_alignParentTop="true"
                     android:background="@color/colorPrimary"
                     android:padding="8dp"
-                    android:src="@drawable/img_authentication"
-                    android:tint="@color/white" />
+                    android:tint="@color/white"
+                    app:srcCompat="@drawable/money" />
 
                 <EditText
                     android:id="@+id/txtSodubandau"
@@ -200,20 +158,77 @@
             </RelativeLayout>
 
             <Button
-                android:id="@+id/btn_Thaydoithongtin"
+                android:id="@+id/btn_Xoa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:layout_alignEnd="@+id/relativeLayout2"
-                android:layout_alignLeft="@+id/relativeLayout2"
-                android:layout_alignRight="@+id/relativeLayout2"
-                android:layout_alignStart="@+id/relativeLayout2"
-                android:layout_below="@+id/relativeLayout2"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="21dp"
                 android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif-medium"
                 android:text="THAY ĐỔI THÔNG TIN"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:layout_below="@+id/textView8"
+                android:layout_alignLeft="@+id/textView8"
+                android:layout_alignStart="@+id/textView8"
+                android:layout_alignRight="@+id/relativeLayout2"
+                android:layout_alignEnd="@+id/relativeLayout2" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Số tiền thu"
+                android:layout_below="@+id/relativeLayout2"
+                android:layout_alignLeft="@+id/relativeLayout2"
+                android:layout_alignStart="@+id/relativeLayout2" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textView5"
+                android:layout_alignStart="@+id/textView5"
+                android:layout_below="@+id/textView5"
+                android:layout_marginTop="16dp"
+                android:text="Số tiền chi" />
+
+            <TextView
+                android:id="@+id/textViewThu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/imageView1"
+                android:layout_alignStart="@+id/imageView1"
+                android:layout_alignTop="@+id/textView5"
+                android:text="0" />
+
+            <TextView
+                android:id="@+id/textViewChi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/textView8"
+                android:layout_alignLeft="@+id/textViewThu"
+                android:layout_alignStart="@+id/textViewThu"
+                android:text="0" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Tên tài khoản"
+                android:layout_below="@+id/imageView1"
+                android:layout_alignLeft="@+id/relativeLayout1"
+                android:layout_alignStart="@+id/relativeLayout1" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/relativeLayout1"
+                android:layout_alignStart="@+id/relativeLayout1"
+                android:layout_below="@+id/relativeLayout1"
+                android:text="Số tiền ban đầu" />
 
         </RelativeLayout>
 

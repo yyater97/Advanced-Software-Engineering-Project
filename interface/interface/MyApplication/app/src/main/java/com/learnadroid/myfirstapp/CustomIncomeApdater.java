@@ -50,15 +50,16 @@ public class CustomIncomeApdater  extends BaseAdapter {
             holder.dateNameView = (TextView) convertView.findViewById(R.id.textView6);
             holder.countryNameView = (TextView) convertView.findViewById(R.id.textView_countryName);
             holder.populationView = (TextView) convertView.findViewById(R.id.textView_population);
+            holder.MaGD= (TextView) convertView.findViewById(R.id.textViewMagiaodich);
             convertView.setTag(holder);
         } else {
             holder = (CustomIncomeApdater.ViewHolder) convertView.getTag();
         }
-
         Income country = this.listData.get(position);
-        holder.countryNameView.setText("Chi: "+country.getCountryName());
+        holder.countryNameView.setText(country.getCountryName());
         holder.populationView.setText("Tiền: " + country.getPopulation()+" Đ");
-        holder.dateNameView.setText("Ngày chi: " + country.getDate());
+        holder.dateNameView.setText( country.getDate());
+        holder.MaGD.setText("Mã giao dịch: "+country.getMagiaodich());
         int imageId = this.getMipmapResIdByName(country.getFlagName());
 
         holder.flagView.setImageResource(imageId);
@@ -81,5 +82,6 @@ public class CustomIncomeApdater  extends BaseAdapter {
         TextView countryNameView;
         TextView populationView;
         TextView dateNameView;
+        TextView MaGD;
     }
 }
