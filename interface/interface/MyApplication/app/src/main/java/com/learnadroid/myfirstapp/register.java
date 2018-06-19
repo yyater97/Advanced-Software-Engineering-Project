@@ -1,6 +1,9 @@
 package com.learnadroid.myfirstapp;
-
+import com.learnadroid.myfirstapp.Connect.*;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -31,27 +34,54 @@ public class register extends AppCompatActivity {
     Button SignUp;
     private String urlInsert="https://quanpn.000webhostapp.com/manage/InsertUser.php";
     private String url = "https://quanpn.000webhostapp.com/manage/user.php";
+    private DictionaryDatabase mDBHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        getSupportActionBar().hide();
+        /*getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
         Username=(EditText) findViewById(R.id.txtUsername) ;
         Email=(EditText) findViewById(R.id.txtEmail) ;
         Password=(EditText) findViewById(R.id.txtPassword) ;
         SignUp=(Button) findViewById(R.id.btn_Luulai) ;
+        mDBHelper=new DictionaryDatabase(this);
         SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Username.getText().toString().equals("")||Email.getText().toString().equals("")||Password.getText().toString().equals(""))
-                {
-                        Toast.makeText(getBaseContext(),""+"Đăng kí thất bại, mời bạn kiểm tra lại",Toast.LENGTH_LONG).show();
+                if(isConnected()==true) {
+                    if (Username.getText().toString().equals("") || Email.getText().toString().equals("") || Password.getText().toString().equals("")) {
+                        Toast.makeText(getBaseContext(), "" + "Đăng kí thất bại, mời bạn kiểm tra lại", Toast.LENGTH_LONG).show();
 
+                    } else {
+                        SignUp(url, Username.getText().toString().trim());
+                       if(mDBHelper.DangnhapInsertUser(Username.getText().toString().trim())==true) {
+                           Toast.makeText(getBaseContext(),""+"Tài khoản đã tồn tại",Toast.LENGTH_LONG).show();
+                       }
+                       else{
+                           mDBHelper.insertUser(Username.getText().toString(),Username.getText().toString(),Email.getText().toString(),Password.getText().toString());
+                       }
+                    }
                 }
-                else {
-                    SignUp(url, Username.getText().toString().trim());
+                else{
+                    if (Username.getText().toString().equals("") || Email.getText().toString().equals("") || Password.getText().toString().equals("")) {
+                        Toast.makeText(getBaseContext(), "" + "Đăng kí thất bại, mời bạn kiểm tra lại", Toast.LENGTH_LONG).show();
+
+                    } else {
+
+                        if(mDBHelper.DangnhapInsertUser(Username.getText().toString().trim())==true) {
+                            Toast.makeText(getBaseContext(),""+"Tài khoản đã tồn tại",Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            mDBHelper.insertUser(Username.getText().toString(),Username.getText().toString(),Email.getText().toString(),Password.getText().toString());
+                            Bundle bundle = new Bundle();
+                            bundle.putString("Keys",Username.getText().toString().trim());
+                            Intent intent = new Intent(register.this, menu.class);
+                            intent.putExtra("getUser", bundle);
+                            startActivity(intent);
+                        }
+                    }
                 }
 
             }
@@ -92,7 +122,15 @@ public class register extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
     }
-
+    public boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
     protected void SignUp(String url, final String a){
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
         final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,

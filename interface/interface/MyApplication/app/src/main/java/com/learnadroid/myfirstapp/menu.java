@@ -1,7 +1,10 @@
 package com.learnadroid.myfirstapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,16 +13,24 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.Toast;
 
+import com.learnadroid.myfirstapp.Connect.DictionaryDatabase;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 public class menu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     GridLayout mainGrid;
-
+    private DictionaryDatabase mDBHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +44,21 @@ public class menu extends AppCompatActivity
         Bundle bundle = a.getBundleExtra("getUser");
         final String Keys=bundle.getString("Keys");
         // Tạo menu chính
+        mDBHelper=new DictionaryDatabase(this);
+        File database=getApplicationContext().getDatabasePath(DictionaryDatabase.DBNAME);
+        if(database.exists() == false){
+            mDBHelper.getReadableDatabase();
+            if(copyDatabase(this)){
+                Toast.makeText(getApplicationContext(),"Copy success",Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(getApplicationContext(),"Copy failed",Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+        if (isConnected()==true)
+        {
+            mDBHelper.InsertUserMenu(menu.this);
+        }
         for (int i = 0; i < mainGrid.getChildCount(); i++) {
             //You can see , all child item is CardView , so we just cast object to CardView
             CardView cardView = (CardView) mainGrid.getChildAt(i);
@@ -98,7 +124,35 @@ public class menu extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+    public boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
+    private boolean copyDatabase(Context context){
+        try{
+            InputStream inputStream=context.getAssets().open(DictionaryDatabase.DBNAME);
+            String outFileName=DictionaryDatabase.DBLOCATION + DictionaryDatabase.DBNAME;
+            OutputStream outputStream=new FileOutputStream(outFileName);
+            byte[] buff=new byte[1024];
+            int length=0;
+            while ((length=inputStream.read(buff)) >0){
+                outputStream.write(buff,0,length);
+            }
+            outputStream.flush();
+            outputStream.close();
+            Log.w("Database","Copy Success");
+            return true;
 
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
