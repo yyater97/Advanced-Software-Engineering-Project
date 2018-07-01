@@ -1,6 +1,9 @@
 package com.learnadroid.myfirstapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -9,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,11 +31,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.learnadroid.myfirstapp.Connect.DictionaryDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +59,7 @@ public class quanlychi extends AppCompatActivity
     private String url = "https://quanpn.000webhostapp.com/manage/selectKhoanchi.php";
     private String urlAccount = "https://quanpn.000webhostapp.com/manage/selectAccount.php";
     private String urlInsert = "https://quanpn.000webhostapp.com/manage/insertIncome.php";
+    private DictionaryDatabase mDBHelper;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +75,36 @@ public class quanlychi extends AppCompatActivity
         Ghichu=(EditText) findViewById(R.id.txt_Ghichu);
         Tuai=(EditText) findViewById(R.id.txt_Denai);
         Luulai=(Button) findViewById(R.id.btn_Luulai);
-        Taikhoan(urlAccount,Keys);
-        Mucthu(url);
+        mDBHelper=new DictionaryDatabase(this);
+        File database=getApplicationContext().getDatabasePath(DictionaryDatabase.DBNAME);
+        if(database.exists() == false){
+            mDBHelper.getReadableDatabase();
+            if(copyDatabase(this)){
+                Toast.makeText(getApplicationContext(),"Copy success",Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(getApplicationContext(),"Copy failed",Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter(quanlychi.this, android.R.layout.simple_spinner_item,mDBHelper.SelectAccount(Keys));
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        SpinnerTaikhoan.setAdapter(adapter);
+        adapter = new ArrayAdapter(quanlychi.this, android.R.layout.simple_spinner_item,mDBHelper.SelectTypeExpense());
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        SpinnerMucchi.setAdapter(adapter);
         Luulai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InsertExpense(Keys,SpinnerTaikhoan.getSelectedItem().toString(),SpinnerMucchi.getSelectedItem().toString());
+                    if("".equals(Giatri.getText().toString())||"".equals(Ngaychi.getText().toString()))
+                    {
+                        Toast.makeText(quanlychi.this, "" + "Thêm thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        //InsertExpense(Keys, SpinnerTaikhoan.getSelectedItem().toString(), SpinnerMucchi.getSelectedItem().toString());
+                        mDBHelper.insertExpense(Keys + "-" + SpinnerTaikhoan.getSelectedItem().toString(), Giatri.getText().toString(), SpinnerMucchi.getSelectedItem().toString(), Ngaychi.getText().toString(), Ghichu.getText().toString(), Tuai.getText().toString(), Keys);
+                        Toast.makeText(quanlychi.this, "" + "Thêm thành công", Toast.LENGTH_SHORT).show();
+                    }
+
             }
         });
 
@@ -99,7 +133,35 @@ public class quanlychi extends AppCompatActivity
             super.onBackPressed();
         }
     }
+    public boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
+    private boolean copyDatabase(Context context){
+        try{
+            InputStream inputStream=context.getAssets().open(DictionaryDatabase.DBNAME);
+            String outFileName=DictionaryDatabase.DBLOCATION + DictionaryDatabase.DBNAME;
+            OutputStream outputStream=new FileOutputStream(outFileName);
+            byte[] buff=new byte[1024];
+            int length=0;
+            while ((length=inputStream.read(buff)) >0){
+                outputStream.write(buff,0,length);
+            }
+            outputStream.flush();
+            outputStream.close();
+            Log.w("Database","Copy Success");
+            return true;
 
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -320,7 +382,17 @@ public class quanlychi extends AppCompatActivity
             intent.putExtra("getUser", bundle1);
             startActivity(intent);
         }
-
+        else if(id==R.id.setting)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(quanlychi.this, gioithieu.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

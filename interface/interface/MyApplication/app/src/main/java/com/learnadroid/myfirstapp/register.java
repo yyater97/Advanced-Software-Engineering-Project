@@ -50,7 +50,7 @@ public class register extends AppCompatActivity {
         SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isConnected()==true) {
+                if(isConnected()==false) {
                     if (Username.getText().toString().equals("") || Email.getText().toString().equals("") || Password.getText().toString().equals("")) {
                         Toast.makeText(getBaseContext(), "" + "Đăng kí thất bại, mời bạn kiểm tra lại", Toast.LENGTH_LONG).show();
 
@@ -61,6 +61,7 @@ public class register extends AppCompatActivity {
                        }
                        else{
                            mDBHelper.insertUser(Username.getText().toString(),Username.getText().toString(),Email.getText().toString(),Password.getText().toString());
+                           Toast.makeText(getBaseContext(),""+"Đăng kí tài khoản thành công",Toast.LENGTH_LONG).show();
                        }
                     }
                 }
@@ -75,6 +76,7 @@ public class register extends AppCompatActivity {
                         }
                         else{
                             mDBHelper.insertUser(Username.getText().toString(),Username.getText().toString(),Email.getText().toString(),Password.getText().toString());
+                            Toast.makeText(getBaseContext(),""+"Đăng kí tài khoản thành công",Toast.LENGTH_LONG).show();
                             Bundle bundle = new Bundle();
                             bundle.putString("Keys",Username.getText().toString().trim());
                             Intent intent = new Intent(register.this, menu.class);

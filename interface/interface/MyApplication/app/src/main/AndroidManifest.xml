@@ -68,12 +68,13 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".datetime"
-            android:label="@string/title_activity_datetime"
+            android:label="Báo cáo theo ngày"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".hangmucdatetime"
             android:label="Báo cáo theo ngày"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".gioithieu"></activity>
     </application>
 
 </manifest>

@@ -27,20 +27,33 @@
             android:layout_height="515dp">
 
             <Button
+                android:id="@+id/btn_Xoa"
+                android:layout_width="207dp"
+
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="57dp"
+                android:background="@color/colorPrimary"
+                android:fontFamily="sans-serif-medium"
+                android:text="XÓA TÀI KHOẢN"
+                android:textColor="@color/white" />
+
+            <Button
                 android:id="@+id/btn_Xemcacgiaodich"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
 
+                android:layout_alignEnd="@+id/btn_Thaydoithongtin"
+                android:layout_alignLeft="@+id/btn_Thaydoithongtin"
+                android:layout_alignRight="@+id/btn_Thaydoithongtin"
+                android:layout_alignStart="@+id/btn_Thaydoithongtin"
+                android:layout_below="@+id/btn_Thaydoithongtin"
                 android:layout_marginTop="13dp"
                 android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif-medium"
                 android:text="XEM CÁC GIAO DỊCH"
-                android:textColor="@color/white"
-                android:layout_below="@+id/btn_Xoa"
-                android:layout_alignLeft="@+id/btn_Xoa"
-                android:layout_alignStart="@+id/btn_Xoa"
-                android:layout_alignRight="@+id/btn_Xoa"
-                android:layout_alignEnd="@+id/btn_Xoa" />
+                android:textColor="@color/white" />
 
             <LinearLayout
                 android:id="@+id/linearLayout1"
@@ -53,21 +66,13 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@mipmap/user"
-                    android:padding="10dp"
-                    android:tint="@color/white" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="sans-serif-medium"
-                    android:text="THAY ĐỔI TÀI KHOẢN"
+                    android:text="THÔNG TIN TÀI KHOẢN"
                     android:textColor="@color/white"
                     android:textSize="22sp" />
 
@@ -158,20 +163,20 @@
             </RelativeLayout>
 
             <Button
-                android:id="@+id/btn_Xoa"
+                android:id="@+id/btn_Thaydoithongtin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
+                android:layout_alignEnd="@+id/relativeLayout2"
+                android:layout_alignLeft="@+id/textView8"
+                android:layout_alignRight="@+id/relativeLayout2"
+                android:layout_alignStart="@+id/textView8"
+                android:layout_below="@+id/textView8"
                 android:layout_marginTop="21dp"
                 android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif-medium"
                 android:text="THAY ĐỔI THÔNG TIN"
-                android:textColor="@color/white"
-                android:layout_below="@+id/textView8"
-                android:layout_alignLeft="@+id/textView8"
-                android:layout_alignStart="@+id/textView8"
-                android:layout_alignRight="@+id/relativeLayout2"
-                android:layout_alignEnd="@+id/relativeLayout2" />
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/textView5"

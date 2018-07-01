@@ -154,7 +154,7 @@
 
 
             <Button
-                android:id="@+id/btn_Xoa"
+                android:id="@+id/btn_Thaydoithongtin"
                 android:layout_width="274dp"
                 android:layout_height="wrap_content"
 

@@ -24,21 +24,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="491dp">
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/btn_Exit"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/btn_Xoa"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="14dp"
-                android:layout_marginRight="14dp"
-                android:layout_marginTop="33dp"
-                app:backgroundTint="@color/colorPrimary"
-                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+            android:layout_height="400dp">
 
             <LinearLayout
                 android:id="@+id/linearLayout1"
@@ -156,7 +142,7 @@
 
 
             <Button
-                android:id="@+id/btn_Xoa"
+                android:id="@+id/btn_Thaydoithongtin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 

@@ -9,11 +9,11 @@ public class Income {
 
     // Image name (Without extension)
     private String flagName;
-    private int population;
+    private String population;
     private String Date;
-    private int Magiaodich;
+    private String Magiaodich;
 
-    public Income(String countryName, String flagName, int population,String date,int MaGD ) {
+    public Income(String countryName, String flagName, String population,String date,String MaGD ) {
         this.countryName= countryName;
         this.flagName= flagName;
         this.population= population;
@@ -21,19 +21,19 @@ public class Income {
         this.Magiaodich=MaGD;
     }
 
-    public int getMagiaodich() {
+    public String getMagiaodich() {
         return Magiaodich;
     }
 
-    public void setMagiaodich(int magiaodich) {
+    public void setMagiaodich(String magiaodich) {
         Magiaodich = magiaodich;
     }
 
-    public int getPopulation() {
+    public String getPopulation() {
         return population;
     }
 
-    public void setPopulation(int population) {
+    public void setPopulation(String population) {
         this.population = population;
     }
 

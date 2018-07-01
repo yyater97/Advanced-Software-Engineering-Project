@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        SingIn=(Button) findViewById(R.id.btn_Xoa);
+        SingIn=(Button) findViewById(R.id.btn_Thaydoithongtin);
         SingUp=(Button) findViewById(R.id.btn_Luulai);
        Username=(EditText) findViewById(R.id.txtUsername);
        Password=(EditText) findViewById(R.id.txtPassword);

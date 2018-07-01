@@ -1,6 +1,9 @@
 package com.learnadroid.myfirstapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -8,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,11 +27,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.learnadroid.myfirstapp.Connect.DictionaryDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -42,6 +51,7 @@ public class baocao extends AppCompatActivity
     Calendar calendar = Calendar.getInstance();
     int Ngay = 0;
     TextView text;
+    private DictionaryDatabase mDBHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +60,26 @@ public class baocao extends AppCompatActivity
         setSupportActionBar(toolbar);
       ListView listView = (ListView) findViewById(R.id.listView1);
         List<lisviewBaocao> list=new ArrayList<lisviewBaocao>();
+        mDBHelper=new DictionaryDatabase(this);
+        File database=getApplicationContext().getDatabasePath(DictionaryDatabase.DBNAME);
+        if(database.exists() == false){
+            mDBHelper.getReadableDatabase();
+            if(copyDatabase(this)){
+                Toast.makeText(getApplicationContext(),"Copy success",Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(getApplicationContext(),"Copy failed",Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+        if (isConnected()==true)
+        {
+            mDBHelper.InsertUserMenu(baocao.this);
+            mDBHelper.InsertAccountMenu(baocao.this);
+            mDBHelper.UpdateAccountMenu(baocao.this);
+            mDBHelper.InsertIncomeMenu(baocao.this);
+            mDBHelper.InsertExpenseMenu(baocao.this);
+
+        }
         list.add(new lisviewBaocao("HÔM NAY","today",String.valueOf(calendar.get(Calendar.DATE))+"-"+String.valueOf(calendar.get(Calendar.MONTH)+1)+"-"+String.valueOf(calendar.get(Calendar.YEAR)),String.valueOf(calendar.get(Calendar.YEAR))+"-"+String.valueOf(calendar.get(Calendar.MONTH)+1)+"-"+String.valueOf(calendar.get(Calendar.DATE))));
         list.add(new lisviewBaocao("THÁNG NÀY","thangnay",String.valueOf(calendar.get(Calendar.MONTH)+1)+"-"+String.valueOf(calendar.get(Calendar.YEAR)),String.valueOf(calendar.get(Calendar.YEAR))+"-"+String.valueOf(calendar.get(Calendar.MONTH)+1)));
         list.add(new lisviewBaocao("NĂM NAY","namnay",String.valueOf(calendar.get(Calendar.YEAR)),String.valueOf(calendar.get(Calendar.YEAR))));
@@ -57,41 +87,7 @@ public class baocao extends AppCompatActivity
         final Intent a = getIntent();
         Bundle bundle = a.getBundleExtra("getUser");
         final String Keys=bundle.getString("Keys");
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlSelectExpense, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONArray arr = new JSONArray(response);
-                    for (int i = 0; i < arr.length(); i++) {
-                        try {
-                            JSONObject obj = arr.getJSONObject(i);
-                            {
-                                Ngay+=Integer.parseInt(obj.getString("Giatri"));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
 
-                    }
-                } catch (JSONException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(baocao.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params = new HashMap<>();
-                params.put("userID","a");
-                return params;
-            }
-        };
-        requestQueue.add(stringRequest);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
@@ -122,6 +118,35 @@ public class baocao extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+    public boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
+    private boolean copyDatabase(Context context){
+        try{
+            InputStream inputStream=context.getAssets().open(DictionaryDatabase.DBNAME);
+            String outFileName=DictionaryDatabase.DBLOCATION + DictionaryDatabase.DBNAME;
+            OutputStream outputStream=new FileOutputStream(outFileName);
+            byte[] buff=new byte[1024];
+            int length=0;
+            while ((length=inputStream.read(buff)) >0){
+                outputStream.write(buff,0,length);
+            }
+            outputStream.flush();
+            outputStream.close();
+            Log.w("Database","Copy Success");
+            return true;
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
         }
     }
     @Override
@@ -234,7 +259,17 @@ public class baocao extends AppCompatActivity
             intent.putExtra("getUser", bundle1);
             startActivity(intent);
         }
-
+        else if(id==R.id.setting)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(baocao.this, gioithieu.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

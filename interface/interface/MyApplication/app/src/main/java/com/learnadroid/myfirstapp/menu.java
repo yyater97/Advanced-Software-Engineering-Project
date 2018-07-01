@@ -58,6 +58,11 @@ public class menu extends AppCompatActivity
         if (isConnected()==true)
         {
             mDBHelper.InsertUserMenu(menu.this);
+            mDBHelper.InsertAccountMenu(menu.this);
+            mDBHelper.UpdateAccountMenu(menu.this);
+            mDBHelper.InsertIncomeMenu(menu.this);
+            mDBHelper.InsertExpenseMenu(menu.this);
+
         }
         for (int i = 0; i < mainGrid.getChildCount(); i++) {
             //You can see , all child item is CardView , so we just cast object to CardView
@@ -76,11 +81,17 @@ public class menu extends AppCompatActivity
 
                         }
                         if(finalI==1){
-                            Bundle bundle = new Bundle();
-                            bundle.putString("Keys",Keys);
-                            Intent intent = new Intent(menu.this, baocao.class);
-                            intent.putExtra("getUser", bundle);
-                            startActivity(intent);
+                            if(isConnected()==true) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("Keys", Keys);
+                                Intent intent = new Intent(menu.this, baocao.class);
+                                intent.putExtra("getUser", bundle);
+                                startActivity(intent);
+                            }
+                            else
+                            {
+
+                            }
                         }
                         if(finalI==2){
                             Bundle bundle = new Bundle();
@@ -277,8 +288,28 @@ public class menu extends AppCompatActivity
             intent.putExtra("getUser", bundle1);
             startActivity(intent);
         }
-
-
+        else if(id==R.id.tracuu)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(menu.this, tracutygia.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
+        else if(id==R.id.setting)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(menu.this, gioithieu.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

@@ -62,7 +62,6 @@ public class mainbaocao extends AppCompatActivity
         dialog = new Dialog(mainbaocao.this);
         dialog.setContentView(R.layout.dialogchart);
         pieChartChi=(PieChart) dialog.findViewById(R.id.piechartChi);
-
         pieChartThu=(PieChart) dialog.findViewById(R.id.piechartThu);
         setContentView(R.layout.activity_mainbaocao);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -86,24 +85,24 @@ public class mainbaocao extends AppCompatActivity
                                 if (Keys.equals(Remove(obj.getString("Ngaychi")))) {
 
                                     k += Integer.parseInt(obj.getString("Giatri"));
-                                    image_details.add(new Income("Thu: " + obj.getString("Mucchi"), "anuong", Integer.parseInt(obj.getString("Giatri")), "Tài khoản: " + obj.getString("accountID"), obj.getInt("ExpenseID")));
+                                    image_details.add(new Income("Chi: " + obj.getString("Mucchi"), "anuong", (obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), remove(remove(obj.getString("ExpenseID")))));
                                 }
-                                    if(Keys.equals(Remove(obj.getString("Ngaychi").substring(0,7))))
-                                    {
-                                        k += Integer.parseInt(obj.getString("Giatri"));
-                                        image_details.add(new Income("Thu: " + obj.getString("Mucchi"), "anuong", Integer.parseInt(obj.getString("Giatri")), "Tài khoản: " + obj.getString("accountID"), obj.getInt("ExpenseID")));
-                                    }
+                                if(Keys.equals(Remove(obj.getString("Ngaychi").substring(0,7))))
+                                {
+                                    k += Integer.parseInt(obj.getString("Giatri"));
+                                    image_details.add(new Income("Chi: " + obj.getString("Mucchi"), "anuong", (obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), remove(obj.getString("ExpenseID"))));
+                                }
                                 if(Keys.equals(Remove(obj.getString("Ngaychi").substring(0,4))))
                                 {
                                     k += Integer.parseInt(obj.getString("Giatri"));
-                                    image_details.add(new Income("Thu: " + obj.getString("Mucchi"), "anuong", Integer.parseInt(obj.getString("Giatri")), "Tài khoản: " + obj.getString("accountID"), obj.getInt("ExpenseID")));
+                                    image_details.add(new Income("Chi: " + obj.getString("Mucchi"), "anuong", (obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), remove(obj.getString("ExpenseID"))));
                                 }
 
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        textChi.setText(String.valueOf(k));
+                        textChi.setText(String.valueOf(k)+" Đ");
                         listView.setAdapter(new CustomIncomeApdater(mainbaocao.this,image_details));
                     }
                 } catch (JSONException ex) {
@@ -113,7 +112,7 @@ public class mainbaocao extends AppCompatActivity
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mainbaocao.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+
             }
         }){
             @Override
@@ -133,22 +132,22 @@ public class mainbaocao extends AppCompatActivity
                         try {
                             JSONObject obj = arr.getJSONObject(i);
                             {
-                              {
-                                    if (Keys.equals(obj.getString("Ngaychi"))) {
+                                {
+                                    if (Keys.equals(Remove(obj.getString("Ngaychi")))) {
 
                                         b += Integer.parseInt(obj.getString("Giatri"));
-                                        image_details.add(new Income("Chi: " + obj.getString("Mucchi"), "money", Integer.parseInt(obj.getString("Giatri")), "Tài khoản: " + obj.getString("accountID"), obj.getInt("IncomeID")));
+                                        image_details.add(new Income("Thu: " + obj.getString("Mucchi"), "money", (obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), obj.getString("IncomeID")));
                                     }
-                                  if (Keys.equals(obj.getString("Ngaychi").substring(0,7))) {
+                                    if (Keys.equals(Remove(obj.getString("Ngaychi").substring(0,7)))) {
 
-                                      b += Integer.parseInt(obj.getString("Giatri"));
-                                      image_details.add(new Income("Chi: " + obj.getString("Mucchi"), "money", Integer.parseInt(obj.getString("Giatri")), "Tài khoản: " + obj.getString("accountID"), obj.getInt("IncomeID")));
-                                  }
-                                  if (Keys.equals(obj.getString("Ngaychi").substring(0,4))) {
+                                        b += Integer.parseInt(obj.getString("Giatri"));
+                                        image_details.add(new Income("Thu: " + obj.getString("Mucchi"), "money", (obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), obj.getString("IncomeID")));
+                                    }
+                                    if (Keys.equals(Remove(obj.getString("Ngaychi").substring(0,4)))) {
 
-                                      b += Integer.parseInt(obj.getString("Giatri"));
-                                      image_details.add(new Income("Chi: " + obj.getString("Mucchi"), "money", Integer.parseInt(obj.getString("Giatri")), "Tài khoản: " + obj.getString("accountID"), obj.getInt("IncomeID")));
-                                  }
+                                        b += Integer.parseInt(obj.getString("Giatri"));
+                                        image_details.add(new Income("Thu: " + obj.getString("Mucchi"), "money",(obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), obj.getString("IncomeID")));
+                                    }
 
                                 }
 
@@ -156,7 +155,7 @@ public class mainbaocao extends AppCompatActivity
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        textThu.setText(String.valueOf(b));
+                        textThu.setText(String.valueOf(b)+" Đ");
                         listView.setAdapter(new CustomIncomeApdater(mainbaocao.this,image_details));
                     }
                 } catch (JSONException ex) {
@@ -166,7 +165,7 @@ public class mainbaocao extends AppCompatActivity
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mainbaocao.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+
             }
         }){
             @Override
@@ -196,7 +195,7 @@ public class mainbaocao extends AppCompatActivity
                 pieChartThu.setCenterTextSize(10);
 
                 pieChartThu.setDrawEntryLabels(true);
-                
+
                 ChartThu(pieChartChi,Keys,Keys1);
                 dialog.show();
             }
@@ -256,7 +255,7 @@ public class mainbaocao extends AppCompatActivity
         final ArrayList<String> xEntrys = new ArrayList<>();
         final String[] xData = { "January", "February", "January" };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-         StringRequest stringRequest = new StringRequest(Request.Method.POST, urlSelectIncome, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlSelectExpense, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -266,21 +265,21 @@ public class mainbaocao extends AppCompatActivity
                             JSONObject obj = arr.getJSONObject(i);
                             {
                                 {
-                                    if (Keys.equals(obj.getString("Ngaychi"))) {
+                                    if (Keys.equals(Remove(obj.getString("Ngaychi")))) {
                                         {
-                                          if("Đi chợ/siêu thị".equals(obj.getString("Mucchi"))||"Quần áo".equals(obj.getString("Mucchi"))||"Giày dép".equals(obj.getString("Mucchi"))||"Đồ điện tử".equals(obj.getString("Mucchi"))||"Phụ kiện khác".equals(obj.getString("Mucchi"))||"Cafe/Trà sữa".equals(obj.getString("Mucchi"))||"Ăn tiệm/cơm quán".equals(obj.getString("Mucchi")))
-                                        {
-                                            xdata[0]=obj.getInt("Giatri");
+                                            if("Đi chợ/siêu thị".equals(obj.getString("Mucchi"))||"Quần áo".equals(obj.getString("Mucchi"))||"Giày dép".equals(obj.getString("Mucchi"))||"Đồ điện tử".equals(obj.getString("Mucchi"))||"Phụ kiện khác".equals(obj.getString("Mucchi"))||"Cafe/Trà sữa".equals(obj.getString("Mucchi"))||"Ăn tiệm/cơm quán".equals(obj.getString("Mucchi")))
+                                            {
+                                                xdata[0]=obj.getInt("Giatri");
 
-                                        }
-                                        else if("Học hành - Rèn luyện".equals(obj.getString("Mucchi"))||"Giao lưu - Quan hệ".equals(obj.getString("Mucchi")))
+                                            }
+                                            else if("Học hành - Rèn luyện".equals(obj.getString("Mucchi"))||"Giao lưu - Quan hệ".equals(obj.getString("Mucchi")))
                                             {
                                                 xdata[1]+=obj.getInt("Giatri");
 
                                             }
                                             else if("Điện".equals(obj.getString("Mucchi"))||"Nước".equals(obj.getString("Mucchi"))||"Mạng Internet".equals(obj.getString("Mucchi"))||"Gas/Chất đốt".equals(obj.getString("Mucchi"))||"Truyền hình".equals(obj.getString("Mucchi"))||"Điện thoại".equals(obj.getString("Mucchi")))
                                             {
-                                               xdata[2]+=obj.getInt("Giatri");
+                                                xdata[2]+=obj.getInt("Giatri");
 
                                             }
                                             else if("Xăng xe".equals(obj.getString("Mucchi"))||"Bảo hiểm xe".equals(obj.getString("Mucchi"))||"Sửa chữa, bảo dưỡng xe".equals(obj.getString("Mucchi"))||"Gửi xe".equals(obj.getString("Mucchi"))||"Thuê xe/Grab/Taxi/Xe ôm".equals(obj.getString("Mucchi")))
@@ -315,7 +314,7 @@ public class mainbaocao extends AppCompatActivity
                                             }
                                         }
                                     }
-                                    if (Keys.equals(obj.getString("Ngaychi").substring(0,4))) {
+                                    if (Keys.equals(Remove(obj.getString("Ngaychi").substring(0,4)))) {
                                         {
                                             if("Đi chợ/siêu thị".equals(obj.getString("Mucchi"))||"Quần áo".equals(obj.getString("Mucchi"))||"Giày dép".equals(obj.getString("Mucchi"))||"Đồ điện tử".equals(obj.getString("Mucchi"))||"Phụ kiện khác".equals(obj.getString("Mucchi"))||"Cafe/Trà sữa".equals(obj.getString("Mucchi"))||"Ăn tiệm/cơm quán".equals(obj.getString("Mucchi")))
                                             {
@@ -364,46 +363,53 @@ public class mainbaocao extends AppCompatActivity
                                             }
                                         }
                                     }
-                                    if (Keys.equals(obj.getString("Ngaychi").substring(0,7))) {
+                                    if (Keys.equals(Remove(obj.getString("Ngaychi").substring(0,7)))) {
                                         {
                                             if("Đi chợ/siêu thị".equals(obj.getString("Mucchi"))||"Quần áo".equals(obj.getString("Mucchi"))||"Giày dép".equals(obj.getString("Mucchi"))||"Đồ điện tử".equals(obj.getString("Mucchi"))||"Phụ kiện khác".equals(obj.getString("Mucchi"))||"Cafe/Trà sữa".equals(obj.getString("Mucchi"))||"Ăn tiệm/cơm quán".equals(obj.getString("Mucchi")))
                                             {
                                                 xdata[0]+=obj.getInt("Giatri");
+
                                             }
                                             else if("Học hành - Rèn luyện".equals(obj.getString("Mucchi"))||"Giao lưu - Quan hệ".equals(obj.getString("Mucchi")))
                                             {
                                                 xdata[1]+=obj.getInt("Giatri");
+
                                             }
-                                          else if("Điện".equals(obj.getString("Mucchi"))||"Nước".equals(obj.getString("Mucchi"))||"Mạng Internet".equals(obj.getString("Mucchi"))||"Gas/Chất đốt".equals(obj.getString("Mucchi"))||"Truyền hình".equals(obj.getString("Mucchi"))||"Điện thoại".equals(obj.getString("Mucchi")))
+                                            else if("Điện".equals(obj.getString("Mucchi"))||"Nước".equals(obj.getString("Mucchi"))||"Mạng Internet".equals(obj.getString("Mucchi"))||"Gas/Chất đốt".equals(obj.getString("Mucchi"))||"Truyền hình".equals(obj.getString("Mucchi"))||"Điện thoại".equals(obj.getString("Mucchi")))
                                             {
                                                 xdata[2]+=obj.getInt("Giatri");
+
                                             }
                                             else if("Xăng xe".equals(obj.getString("Mucchi"))||"Bảo hiểm xe".equals(obj.getString("Mucchi"))||"Sửa chữa, bảo dưỡng xe".equals(obj.getString("Mucchi"))||"Gửi xe".equals(obj.getString("Mucchi"))||"Thuê xe/Grab/Taxi/Xe ôm".equals(obj.getString("Mucchi")))
                                             {
                                                 xdata[3]+=obj.getInt("Giatri");
+
                                             }
                                             else if("Vui chơi giải trí".equals(obj.getString("Mucchi"))||"Vật nuôi".equals(obj.getString("Mucchi"))||"Làm đẹp".equals(obj.getString("Mucchi"))||"Du lịch - Phượt".equals(obj.getString("Mucchi")))
                                             {
                                                 xdata[4]+=obj.getInt("Giatri");
+
                                             }
-                                            if("Cưới xin".equals(obj.getString("Mucchi"))||"Ma chay".equals(obj.getString("Mucchi"))||"Thăm hỏi".equals(obj.getString("Mucchi"))||"Biếu tặng".equals(obj.getString("Mucchi")))
+                                            else if("Cưới xin".equals(obj.getString("Mucchi"))||"Ma chay".equals(obj.getString("Mucchi"))||"Thăm hỏi".equals(obj.getString("Mucchi"))||"Biếu tặng".equals(obj.getString("Mucchi")))
                                             {
                                                 xdata[5]+=obj.getInt("Giatri");
+
                                             }
                                             else if("Khám chữa bệnh - Bảo hiểm y tế".equals(obj.getString("Mucchi"))||"Thuốc men".equals(obj.getString("Mucchi")))
                                             {
                                                 xdata[6]+=obj.getInt("Giatri");
+
                                             }
                                             else if("Mua sắm đồ đạc".equals(obj.getString("Mucchi"))||"Sửa chữa nhà cửa".equals(obj.getString("Mucchi"))||"Thuê nhà".equals(obj.getString("Mucchi")))
                                             {
                                                 xdata[7]+=obj.getInt("Giatri");
+
                                             }
                                             else
                                             {
                                                 xdata[8]+=obj.getInt("Giatri");
 
                                             }
-
                                         }
                                     }
                                 }
@@ -467,7 +473,7 @@ public class mainbaocao extends AppCompatActivity
         final ArrayList<String> xEntrys = new ArrayList<>();
         final String[] xData = { "January", "February", "January" };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlSelectExpense, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlSelectIncome, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -477,52 +483,52 @@ public class mainbaocao extends AppCompatActivity
                             JSONObject obj = arr.getJSONObject(i);
                             {
                                 {
-                                    if(Keys.equals(obj.getString("Ngaychi"))) {
-                                    if ("Lương".equals(obj.getString("Mucchi"))) {
-
-                                        yData[0] = +obj.getInt("Giatri");
-                                    } else if ("Được cho/tặng".equals(obj.getString("Mucchi"))) {
-
-                                        yData[1] = +obj.getInt("Giatri");
-                                    } else if ( "Lãi tiết kiệm".equals(obj.getString("Mucchi"))) {
-                                        yData[2] = +obj.getInt("Giatri");
-                                    } else if ( "Thưởng".equals(obj.getString("Mucchi"))) {
-
-                                        yData[3] = +obj.getInt("Giatri");
-                                    } else  {
-                                        yData[4] = +obj.getInt("Giatri");
-                                    }
-                                }
-                                    if(Keys.equals(obj.getString("Ngaychi").substring(0,4))) {
+                                    if((Keys.equals(Remove(obj.getString("Ngaychi"))))) {
                                         if ("Lương".equals(obj.getString("Mucchi"))) {
 
-                                            yData[0] = +obj.getInt("Giatri");
+                                            yData[0] += obj.getInt("Giatri");
                                         } else if ("Được cho/tặng".equals(obj.getString("Mucchi"))) {
 
-                                            yData[1] = +obj.getInt("Giatri");
+                                            yData[1] += obj.getInt("Giatri");
                                         } else if ( "Lãi tiết kiệm".equals(obj.getString("Mucchi"))) {
-                                            yData[2] = +obj.getInt("Giatri");
+                                            yData[2] +=obj.getInt("Giatri");
                                         } else if ( "Thưởng".equals(obj.getString("Mucchi"))) {
 
-                                            yData[3] = +obj.getInt("Giatri");
+                                            yData[3] +=obj.getInt("Giatri");
                                         } else  {
-                                            yData[4] = +obj.getInt("Giatri");
+                                            yData[4] +=obj.getInt("Giatri");
                                         }
                                     }
-                                    if(Keys.equals(obj.getString("Ngaychi").substring(0,7))) {
+                                    if(Keys.equals(Remove(obj.getString("Ngaychi").substring(0,4)))) {
                                         if ("Lương".equals(obj.getString("Mucchi"))) {
 
-                                            yData[0] = +obj.getInt("Giatri");
+                                            yData[0] +=obj.getInt("Giatri");
                                         } else if ("Được cho/tặng".equals(obj.getString("Mucchi"))) {
 
-                                            yData[1] = +obj.getInt("Giatri");
+                                            yData[1] +=obj.getInt("Giatri");
                                         } else if ( "Lãi tiết kiệm".equals(obj.getString("Mucchi"))) {
-                                            yData[2] = +obj.getInt("Giatri");
+                                            yData[2] +=obj.getInt("Giatri");
                                         } else if ( "Thưởng".equals(obj.getString("Mucchi"))) {
 
-                                            yData[3] = +obj.getInt("Giatri");
+                                            yData[3] +=obj.getInt("Giatri");
                                         } else  {
-                                            yData[4] = +obj.getInt("Giatri");
+                                            yData[4] +=obj.getInt("Giatri");
+                                        }
+                                    }
+                                    if(Keys.equals(Remove(obj.getString("Ngaychi").substring(0,7)))) {
+                                        if ("Lương".equals(obj.getString("Mucchi"))) {
+
+                                            yData[0] +=obj.getInt("Giatri");
+                                        } else if ("Được cho/tặng".equals(obj.getString("Mucchi"))) {
+
+                                            yData[1] +=obj.getInt("Giatri");
+                                        } else if ( "Lãi tiết kiệm".equals(obj.getString("Mucchi"))) {
+                                            yData[2] +=obj.getInt("Giatri");
+                                        } else if ( "Thưởng".equals(obj.getString("Mucchi"))) {
+
+                                            yData[3] +=obj.getInt("Giatri");
+                                        } else  {
+                                            yData[4] +=obj.getInt("Giatri");
                                         }
                                     }
                                 }
@@ -563,7 +569,7 @@ public class mainbaocao extends AppCompatActivity
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mainbaocao.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+
             }
         }){
             @Override
@@ -575,6 +581,26 @@ public class mainbaocao extends AppCompatActivity
         };
         requestQueue.add(stringRequest);
 
+    }
+    public String Catchuoi(String String)
+    {
+        String a=null;
+        String[] strArr;
+        strArr =String.split("-");
+        for(int i = 0; i < strArr.length; i++){
+            a=(strArr[i]);
+        }
+        return  a;
+    }
+    public String remove(String String)
+    {
+        String a=null;
+        String[] strArr;
+        strArr =String.split("");
+        for(int i = 0; i < strArr.length; i++){
+            a=(strArr[0]);
+        }
+        return  a;
     }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -668,8 +694,20 @@ public class mainbaocao extends AppCompatActivity
             intent.putExtra("getUser", bundle);
             startActivity(intent);
         }
+        else if(id==R.id.setting)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(mainbaocao.this, gioithieu.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    
 }

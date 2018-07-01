@@ -9,29 +9,27 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textViewMagiaodich"
-        android:layout_alignTop="@+id/imageView_flag"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="49dp"
+        android:layout_toEndOf="@+id/imageView_flag"
         android:text="Country Name"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="14sp" />
 
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
         android:id="@+id/imageView_flag"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/textViewMagiaodich"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp" />
+        android:layout_marginBottom="-76dp" />
 
     <TextView
         android:id="@+id/textView_countryName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView_population"
-        android:layout_alignStart="@+id/textView_population"
-        android:layout_alignTop="@+id/imageView_flag"
+        android:layout_above="@+id/imageView_flag"
+        android:layout_alignStart="@+id/textView6"
         android:text="Hangmuc"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="14sp" />
@@ -40,20 +38,30 @@
         android:id="@+id/textView_population"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView_flag"
-        android:layout_toEndOf="@+id/imageView_flag"
-        android:layout_toRightOf="@+id/imageView_flag"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textView6"
+        android:layout_marginTop="23dp"
         android:text="gia tri"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textSize="14dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <TextView
         android:id="@+id/textViewMagiaodich"
         android:layout_width="wrap_content"
-        android:layout_height="18dp"
-        android:layout_alignBottom="@+id/imageView_flag"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="29dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textView6"
+        android:layout_marginTop="76dp"
         android:text="Population: ..."
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textSize="14dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/imageView_flag"
+        android:layout_marginEnd="38dp" />
 
 </RelativeLayout>

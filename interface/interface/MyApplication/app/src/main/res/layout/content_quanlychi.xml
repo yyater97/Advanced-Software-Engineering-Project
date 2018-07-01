@@ -184,10 +184,10 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:inputType="date"
                     android:layout_toRightOf="@+id/imgView_emailIcon"
                     android:background="@color/editTextBG"
-                    android:hint="Ngày chi"
+                    android:hint="Ngày chi (yy-mm-dd)"
+                    android:inputType="date"
                     android:paddingLeft="20dp"
                     android:textSize="15sp" />
 
@@ -267,7 +267,7 @@
 
             <Button
                 android:id="@+id/btn_Luulai"
-                android:layout_width="278dp"
+                android:layout_width="259dp"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/relativeLayout11"
                 android:layout_alignParentBottom="true"

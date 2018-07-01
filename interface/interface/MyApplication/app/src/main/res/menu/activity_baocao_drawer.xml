@@ -46,7 +46,7 @@
             <item
                 android:id="@+id/setting"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="Setting" />
+                android:title="Giới thiệu" />
         </menu>
     </item>
 

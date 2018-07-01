@@ -55,7 +55,7 @@ public class taikhoan extends AppCompatActivity
     CustomListAdapter adapter;
     TextView textViewThu,textViewChi;
     EditText Username,Balance,UserChangeAccount,BalanceChangeAccount;
-    Button Btn_InsertAccount,Btn_exit,Btn_Thaydoithongtin,Btn_Xemcacgiadich;
+    Button Btn_InsertAccount,Btn_Delete,Btn_Thaydoithongtin,Btn_Xemcacgiadich;
     String url = "https://quanpn.000webhostapp.com/manage/selectAccount.php";
     String urlInsert = "https://quanpn.000webhostapp.com/manage/insertAccount.php";
     String urlUdpate = "https://quanpn.000webhostapp.com/manage/updateAccount.php";
@@ -71,94 +71,67 @@ public class taikhoan extends AppCompatActivity
         setSupportActionBar(toolbar);
         final Intent a = getIntent();
         Bundle bundle = a.getBundleExtra("getUser");
-        final String Keys=bundle.getString("Keys");
+        final String Keys = bundle.getString("Keys");
         dialog = new Dialog(taikhoan.this);
-        dialogChangeAccount=new Dialog(taikhoan.this);
+        dialogChangeAccount = new Dialog(taikhoan.this);
         // khởi tạo dialog
         dialog.setContentView(R.layout.activity_registertaikhoan);
         dialogChangeAccount.setContentView(R.layout.activity_changeaccount);
-        Tentaikhoan=(EditText) dialog.findViewById(R.id.txtTentaikhoan) ;
-        Username=(EditText) dialog.findViewById(R.id.txtAccount);
-        Balance=(EditText) dialog.findViewById(R.id.txtBalance) ;
-        Btn_InsertAccount=(Button) dialog.findViewById(R.id.btn_Xoa) ;
-        Btn_Thaydoithongtin=(Button) dialogChangeAccount.findViewById(R.id.btn_Xoa);
-        UserChangeAccount=(EditText) dialogChangeAccount.findViewById(R.id.txtTentaikhoan);
-        BalanceChangeAccount=(EditText) dialogChangeAccount.findViewById(R.id.txtSodubandau);
-        Btn_Xemcacgiadich=(Button) dialogChangeAccount.findViewById(R.id.btn_Xemcacgiaodich);
-       final List<Country> image_details = new ArrayList<Country>();
+        Tentaikhoan = (EditText) dialog.findViewById(R.id.txtTentaikhoan);
+        Username = (EditText) dialog.findViewById(R.id.txtAccount);
+        Balance = (EditText) dialog.findViewById(R.id.txtBalance);
+        Btn_InsertAccount = (Button) dialog.findViewById(R.id.btn_Thaydoithongtin);
+        Btn_Thaydoithongtin = (Button) dialogChangeAccount.findViewById(R.id.btn_Thaydoithongtin);
+        UserChangeAccount = (EditText) dialogChangeAccount.findViewById(R.id.txtTentaikhoan);
+        BalanceChangeAccount = (EditText) dialogChangeAccount.findViewById(R.id.txtSodubandau);
+        Btn_Xemcacgiadich = (Button) dialogChangeAccount.findViewById(R.id.btn_Xemcacgiaodich);
+        Btn_Delete = (Button) dialogChangeAccount.findViewById(R.id.btn_Xoa);
+        List<Country> image_details = new ArrayList<Country>();
         final ListView listView = (ListView) findViewById(R.id.listView1);
-        final List<Country> list=new ArrayList<Country>();
-        mDBHelper=new DictionaryDatabase(this);
-        File database=getApplicationContext().getDatabasePath(DictionaryDatabase.DBNAME);
-        if(database.exists() == false){
+        final List<Country> list = new ArrayList<Country>();
+
+        mDBHelper = new DictionaryDatabase(this);
+        File database = getApplicationContext().getDatabasePath(DictionaryDatabase.DBNAME);
+        if (database.exists() == false) {
             mDBHelper.getReadableDatabase();
-            if(copyDatabase(this)){
-                Toast.makeText(getApplicationContext(),"Copy success",Toast.LENGTH_LONG).show();
-            }else {
-                Toast.makeText(getApplicationContext(),"Copy failed",Toast.LENGTH_LONG).show();
+            if (copyDatabase(this)) {
+                Toast.makeText(getApplicationContext(), "Copy success", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Copy failed", Toast.LENGTH_SHORT).show();
                 return;
             }
         }
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
-        textViewThu=(TextView) dialogChangeAccount.findViewById(R.id.textViewThu) ;
-        textViewChi=(TextView) dialogChangeAccount.findViewById(R.id.textViewChi) ;
-        if(isConnected()==true) {
-
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    try {
-
-                        JSONArray arr = new JSONArray(response);
-                        for (int i = 0; i < arr.length(); i++) {
-                            try {
-                                JSONObject obj = arr.getJSONObject(i);
-                                {
-                                    image_details.add(new Country(obj.getString("accountName"), "user", Integer.parseInt(obj.getString("balance"))));
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            listView.setAdapter(new CustomListAdapter(taikhoan.this, image_details));
-                        }
-                    } catch (JSONException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(taikhoan.this, "Xảy ra lỗi!", Toast.LENGTH_LONG).show();
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("userID", Keys);
-                    return params;
-                }
-            };
-            requestQueue.add(stringRequest);
-        }
-        else {
-            listView.setAdapter(new CustomListAdapter(taikhoan.this, mDBHelper.Taikhoan(Keys)));
-        }
+        textViewThu = (TextView) dialogChangeAccount.findViewById(R.id.textViewThu);
+        textViewChi = (TextView) dialogChangeAccount.findViewById(R.id.textViewChi);
+        listView.setAdapter(new CustomListAdapter(taikhoan.this, mDBHelper.Taikhoan(Keys)));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                TextView textViewCountry=(TextView) v.findViewById(R.id.textView_countryName) ;
+            public void onItemClick(AdapterView<?> a, View v, final int position, long id) {
+                final TextView textViewCountry=(TextView) v.findViewById(R.id.textView_countryName) ;
                 TextView textViewBalance=(TextView) v.findViewById(R.id.textView_population) ;
-                textViewChi.setText("0");
-                textViewThu.setText("0");
                 UserChangeAccount.setText(textViewCountry.getText().toString());
-                SelectThu(Keys+"-"+textViewCountry.getText().toString().trim());
-                SelectChi(Keys+"-"+textViewCountry.getText().toString().trim());
+                textViewChi.setText(String.valueOf(mDBHelper.SelectChiAccount(Keys+"-"+textViewCountry.getText().toString().trim())));
+                textViewThu.setText(String.valueOf(mDBHelper.SelectThuAccount(Keys+"-"+textViewCountry.getText().toString().trim())));
                 BalanceChangeAccount.setText(String.valueOf(Remove(textViewBalance.getText().toString())));
+               UserChangeAccount.setEnabled(false);
                 Btn_Thaydoithongtin.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                    updateAccount(Keys,UserChangeAccount.getText().toString(),BalanceChangeAccount.getText().toString());
+                        if(isConnected()==true) {
+                            updateAccount(Keys, UserChangeAccount.getText().toString(), BalanceChangeAccount.getText().toString());
+                            mDBHelper.updateAccount11(taikhoan.this,Keys+"-"+UserChangeAccount.getText().toString(),UserChangeAccount.getText().toString(),BalanceChangeAccount.getText().toString());
+                            listView.setAdapter(null);
+                            listView.setAdapter(new CustomListAdapter(taikhoan.this,mDBHelper.Taikhoan(Keys)));
+                            Toast.makeText(taikhoan.this,""+"Thay đổi thành công",Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            mDBHelper.updateAccount11(taikhoan.this,Keys+"-"+UserChangeAccount.getText().toString(),UserChangeAccount.getText().toString(),BalanceChangeAccount.getText().toString());
+                            listView.setAdapter(null);
+                            listView.setAdapter(new CustomListAdapter(taikhoan.this,mDBHelper.Taikhoan(Keys)));
+                            Toast.makeText(taikhoan.this,""+"Thay đổi thành công",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 Btn_Xemcacgiadich.setOnClickListener(new View.OnClickListener() {
@@ -175,6 +148,25 @@ public class taikhoan extends AppCompatActivity
                         startActivity(intent);
                     }
                 });
+                Btn_Delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(isConnected()==true)
+                        {
+                            Toast.makeText(taikhoan.this, "Xóa thành công!", Toast.LENGTH_SHORT).show();
+                            DeleteAccount(Keys+"-"+UserChangeAccount.getText().toString());
+                            deleteExpense(taikhoan.this,Keys+"-"+UserChangeAccount.getText().toString());
+                            deleteIncome(taikhoan.this,Keys+"-"+UserChangeAccount.getText().toString());
+                            mDBHelper.deleteAccount(Keys+"-"+UserChangeAccount.getText().toString());
+                            listView.setAdapter(null);
+                            listView.setAdapter(new CustomListAdapter(taikhoan.this,mDBHelper.Taikhoan(Keys)));
+
+                        }
+                        else {
+                            Toast.makeText(taikhoan.this, "Cần kết nối internet để thực hiện chức năng này", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 dialogChangeAccount.show();
             }
         });
@@ -186,7 +178,7 @@ public class taikhoan extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        final FloatingActionButton fab1 = (FloatingActionButton) dialog.findViewById(R.id.btn_Exit);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,22 +187,24 @@ public class taikhoan extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         if (Username.getText().toString().equals("") || Balance.getText().toString().equals("")) {
-                            Toast.makeText(taikhoan.this, "Thêm tài khoản thất bại", Toast.LENGTH_LONG).show();
+                            Toast.makeText(taikhoan.this, "Thêm tài khoản thất bại", Toast.LENGTH_SHORT).show();
                         } else {
-                            insertAccount(url, Username.getText().toString(), Keys);
-                            image_details.add(new Country(Username.getText().toString(), "user", Integer.parseInt(Balance.getText().toString())));
+                            if(isConnected()==true) {
+                               
+                                mDBHelper.insertAccount(taikhoan.this,Keys+"-"+Username.getText().toString(),Keys,Username.getText().toString(),Balance.getText().toString());
+                                listView.setAdapter(null);
+                                listView.setAdapter(new CustomListAdapter(taikhoan.this, mDBHelper.Taikhoan(Keys)));
+                            }
+                            else
+                            {
+                                mDBHelper.insertAccount(taikhoan.this,Keys+"-"+Username.getText().toString(),Keys,Username.getText().toString(),Balance.getText().toString());
+                                listView.setAdapter(null);
+                                listView.setAdapter(new CustomListAdapter(taikhoan.this, mDBHelper.Taikhoan(Keys)));
+                            }
                         }
-
-                        listView.setAdapter(new CustomListAdapter(taikhoan.this, image_details));
                     }
                 });
 
-                fab1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
                 dialog.show();
             }
         });
@@ -221,16 +215,16 @@ public class taikhoan extends AppCompatActivity
             @Override
             public void onResponse(String response) {
                 if((response.trim()).equals("success")){
-                    Toast.makeText(taikhoan.this,"Thay đổi thành công",Toast.LENGTH_LONG).show();
+
 
                 }else{
-                    Toast.makeText(taikhoan.this,"Thay đổi thất bại!!!",Toast.LENGTH_LONG).show();
+
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(taikhoan.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+
             }
         }){
             @Override
@@ -251,16 +245,16 @@ public class taikhoan extends AppCompatActivity
             @Override
             public void onResponse(String response) {
                 if((response.trim()).equals("success")){
-                    Toast.makeText(taikhoan.this,"Thêm thành công",Toast.LENGTH_LONG).show();
+
 
                 }else{
-                    Toast.makeText(taikhoan.this,"Thêm thất bại!!!",Toast.LENGTH_LONG).show();
+
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(taikhoan.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+                Toast.makeText(taikhoan.this,"Xảy ra lỗi!",Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -270,7 +264,6 @@ public class taikhoan extends AppCompatActivity
                 params.put("userID",Key);
                 params.put("accountName", Username.getText().toString());
                 params.put("balance", Balance.getText().toString());
-
                 return params;
             }
         };
@@ -302,7 +295,7 @@ public class taikhoan extends AppCompatActivity
                             {
                                 if((b+"-"+a).equals(obj.getString("accountID")))
                                 {
-                                    Toast.makeText(getBaseContext(),""+"Tài khoản đã tồn tại",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getBaseContext(),""+"Tài khoản đã tồn tại",Toast.LENGTH_SHORT).show();
                                 }
                                 else
                                 {
@@ -320,7 +313,7 @@ public class taikhoan extends AppCompatActivity
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(taikhoan.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+                Toast.makeText(taikhoan.this,"Xảy ra lỗi!",Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -362,42 +355,82 @@ public class taikhoan extends AppCompatActivity
             return false;
         }
     }
-    public void SelectThu(final String Keys)
+    public void DeleteAccount(final String Keys)
     {
 
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlSelect, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://quanpn.000webhostapp.com/manage/deleteAccount.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                try {
-                    int Ketqua=0;
-                    JSONArray arr = new JSONArray(response);
-                    for (int i = 0; i < arr.length(); i++) {
-                        try {
-                            JSONObject obj = arr.getJSONObject(i);
-                            {
-
-                                    Ketqua+=obj.getInt("Giatri");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        textViewThu.setText(String.valueOf(Ketqua));
-                    }
-                } catch (JSONException ex) {
-                    ex.printStackTrace();
-                }
+                Toast.makeText(taikhoan.this,"Xóa thành công!",Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(taikhoan.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
                 params.put("accountID",Keys);
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+
+    }
+
+    private void deleteExpense(final Context context, final String ExpenseID){
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://quanpn.000webhostapp.com/manage/deleteExpenseAccountID.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if((response.trim()).equals("success")){
+
+
+                }else{
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("accountID",ExpenseID);
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+
+    }
+    private void deleteIncome(final Context context, final String ExpenseID){
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://quanpn.000webhostapp.com/manage/deleteIncomeAccountID.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if((response.trim()).equals("success")){
+
+
+                }else{
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("accountID",ExpenseID);
                 return params;
             }
         };
@@ -432,7 +465,7 @@ public class taikhoan extends AppCompatActivity
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(taikhoan.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
+
             }
         }){
             @Override
@@ -562,7 +595,17 @@ public class taikhoan extends AppCompatActivity
             intent.putExtra("getUser", bundle);
             startActivity(intent);
         }
-
+        else if(id==R.id.setting)
+        {
+            Intent a = getIntent();
+            Bundle bundle = a.getBundleExtra("getUser");
+            final String Keys=bundle.getString("Keys");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("Keys",Keys);
+            Intent intent = new Intent(taikhoan.this, gioithieu.class);
+            intent.putExtra("getUser", bundle1);
+            startActivity(intent);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

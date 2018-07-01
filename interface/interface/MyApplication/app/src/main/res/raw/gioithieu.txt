@@ -1,0 +1,39 @@
+﻿1. ĐỒ ÁN CÔNG NGHỆ PHẦN MỀM CHUYÊN SÂU
+
+2. TÁC GIẢ:
+- Phạm Ngọc Quân
+- Trần Hưng Quang
+- Dương Văn Thanh
+ Sinh viên trường đại học công nghệ thông tin
+
+3. LƯU Ý KHI SỬ DỤNG:
+ Chức năng biểu vẽ biểu đồ của mục chi:
+- Các hạng mục: đi chợ/siêu thị, quần áo, giày dép,
+đồ điện tử, phụ kiện khác, cafe/ trà sữa, ăn tiệm.
+->ăn uống, mua sắm
+- Các hạng mục: học hành - rèn luyện,giao lưu, 
+quan hệ
+-> Phát triển bản thân
+- Các hạng mục: điện, nước, gas / chất đốt, truyền 
+hình, mạng internet, điện thoại
+-> Dịch vụ sinh hoạt
+- Các hạng mục: xăng xe, bảo hiểm xe, sửa chữa-
+bão dưỡng xe, gửi xe, thuê xe/grab/taxi/xe ôm
+-> Đi lại
+- Các hạng mục: vui chơi giải trí, vật nuôi, làm đẹp,
+du lịch - phượt
+-> Hưởng thụ
+- Các hạng mục: cưới xin, ma chay, thăm hỏi, biếu
+tặng.
+-> Hiếu hỉ
+- Các hạng mục: khám chữa bệnh - bảo hiểm y tế,
+thuốc men, 
+-> Sức khỏe
+- Các hạng mục: mua sắm đồ đạc, sữa chữa nhà cửa,
+thuê nhà
+-> Nhà cửa
+- Còn lại-> Hạng mục khác
+
+CẢM ƠN CÁC BẠN ĐÃ SỬ DỤNG PHẦN MỀM
+
+
