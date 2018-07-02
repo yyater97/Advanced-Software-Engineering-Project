@@ -19,7 +19,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="508dp">
+            android:layout_height="411dp">
 
             <Button
                 android:id="@+id/btn_Capnhathongtin"
@@ -126,9 +126,8 @@
 
                 <ImageView
                     android:id="@+id/imgView_passwordIcon"
-                    app:srcCompat="@drawable/money"
-
                     android:layout_width="40dp"
+
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -136,7 +135,8 @@
                     android:background="@color/colorPrimary"
                     android:padding="8dp"
                     android:src="@drawable/img_authentication"
-                    android:tint="@color/white" />
+                    android:tint="@color/white"
+                    app:srcCompat="@drawable/money" />
 
                 <EditText
                     android:id="@+id/txtDiengiai"

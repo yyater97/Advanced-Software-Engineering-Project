@@ -32,7 +32,7 @@
             android:title="Danh sách chi tiền" />
         <item
             android:id="@+id/Baocao"
-            android:icon="@android:drawable/ic_menu_agenda"
+            android:icon="@drawable/baocao"
             android:title="Báo cáo" />
 
     </group>
@@ -45,7 +45,7 @@
                 android:title="Tra cứu" />
             <item
                 android:id="@+id/setting"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@mipmap/book"
                 android:title="Giới thiệu" />
         </menu>
     </item>

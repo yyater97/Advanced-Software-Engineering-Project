@@ -83,19 +83,29 @@ public class activity_Danhsachthu extends AppCompatActivity
                 return;
             }
         }
+        listView.setAdapter(new CustomDanhmucmuaApdater(activity_Danhsachthu.this,mDBHelper.selectTypeIncome()));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Themhangmuc.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Insert();
+                        if(mDBHelper.selectTypeIncomeInsert(txtHangmuc.getText().toString())==true)
+                        {
+                            Toast.makeText(activity_Danhsachthu.this, "Danh mục đã tồn tại", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            mDBHelper.insertTypeIncome(txtHangmuc.getText().toString(), Diengiai.getText().toString());
+                            listView.setAdapter(new CustomDanhmucmuaApdater(activity_Danhsachthu.this, mDBHelper.selectTypeIncome()));
+                            Toast.makeText(activity_Danhsachthu.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
                     }
                 });
                 dialog.show();
             }
         });
-        listView.setAdapter(new CustomDanhmucmuaApdater(activity_Danhsachthu.this,mDBHelper.selectTypeIncome()));
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
@@ -107,13 +117,20 @@ public class activity_Danhsachthu extends AppCompatActivity
                 Thaydoithongtin.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Update(MaHangmuc.getText().toString());
+
+                        mDBHelper.updateTypeIncome(txtHanngmucthaydoi.getText().toString(), txtDiengiaithaydoi.getText().toString(), MaHangmuc.getText().toString());
+                        listView.setAdapter(new CustomDanhmucmuaApdater(activity_Danhsachthu.this, mDBHelper.selectTypeIncome()));
+                        Toast.makeText(activity_Danhsachthu.this, "Thay đổi thành công", Toast.LENGTH_SHORT).show();
+                        dialogThaydoidanhmuc.dismiss();
                     }
                 });
                 Xoa.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Delete(MaHangmuc.getText().toString());
+                        mDBHelper.deleteTypeIncome(txtHanngmucthaydoi.getText().toString());
+                        listView.setAdapter(new CustomDanhmucmuaApdater(activity_Danhsachthu.this, mDBHelper.selectTypeIncome()));
+                        Toast.makeText(activity_Danhsachthu.this, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                        dialogThaydoidanhmuc.dismiss();
                     }
                 });
                 dialogThaydoidanhmuc.show();
@@ -172,173 +189,7 @@ public class activity_Danhsachthu extends AppCompatActivity
             return false;
         }
     }
-    private void InsertMucchi(){
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://quanpn.000webhostapp.com/manage/insertTypeIncome.php", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                if((response.trim()).equals("success")){
-                    Toast.makeText(activity_Danhsachthu.this,"Thêm thành công",Toast.LENGTH_LONG).show();
 
-                }else{
-                    Toast.makeText(activity_Danhsachthu.this,"Thêm thất bại!!!",Toast.LENGTH_LONG).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity_Danhsachthu.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params = new HashMap<>();
-                params.put("type_incomeName",txtHangmuc.getText().toString());
-                params.put("description",txtDiengiai.getText().toString());
-                return params;
-            }
-        };
-        requestQueue.add(stringRequest);
-
-    }
-    private void UpdateMuchi(String a){
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://quanpn.000webhostapp.com/manage/updateTypeIncome.php", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                if((response.trim()).equals("success")){
-                    Toast.makeText(activity_Danhsachthu.this,"Thêm thành công",Toast.LENGTH_LONG).show();
-
-                }else{
-                    Toast.makeText(activity_Danhsachthu.this,"Thêm thất bại!!!",Toast.LENGTH_LONG).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity_Danhsachthu.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params = new HashMap<>();
-                params.put("type_incomeID",txtHangmuc.getText().toString());
-                params.put("type_incomeName",txtHanngmucthaydoi.getText().toString());
-                params.put("description",txtDiengiaithaydoi.getText().toString());
-                return params;
-            }
-        };
-        requestQueue.add(stringRequest);
-
-    }
-    public void Insert()
-    {
-
-        final RequestQueue requestQueue = Volley.newRequestQueue(this);
-        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://quanpn.000webhostapp.com/manage/Laykhoanthu.php", null,
-                new Response.Listener<JSONArray>(){
-
-                    @Override
-
-                    public void onResponse(JSONArray response) {
-                        for(int i = 0; i<response.length(); i++){
-                            try {
-                                JSONObject obj = response.getJSONObject(i);
-                                {
-                                    if (txtHangmuc.getText().toString().equals(obj.getString("type_incomeName")))
-                                    {
-                                        Toast.makeText(getBaseContext(),""+"Danh mục đã tồn tại",Toast.LENGTH_LONG).show();
-                                    }
-                                    else
-                                    {
-                                        InsertMucchi();
-                                    }
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }
-                },
-                new Response.ErrorListener(){
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(activity_Danhsachthu.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
-        requestQueue.add(jsonArrayRequest);
-    }
-    public void Update(final String a)
-    {
-
-        final RequestQueue requestQueue = Volley.newRequestQueue(this);
-        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://quanpn.000webhostapp.com/manage/Laykhoanthu.php", null,
-                new Response.Listener<JSONArray>(){
-
-                    @Override
-
-                    public void onResponse(JSONArray response) {
-                        for(int i = 0; i<response.length(); i++){
-                            try {
-                                JSONObject obj = response.getJSONObject(i);
-                                {
-                                    if (txtHanngmucthaydoi.getText().toString().equals(obj.getString("type_incomeName")))
-                                    {
-                                        Toast.makeText(getBaseContext(),""+"Danh mục đã tồn tại",Toast.LENGTH_LONG).show();
-                                    }
-                                    else
-                                    {
-                                        UpdateMuchi(a);
-                                    }
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }
-                },
-                new Response.ErrorListener(){
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(activity_Danhsachthu.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
-        requestQueue.add(jsonArrayRequest);
-    }
-    private void Delete(final String url){
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://quanpn.000webhostapp.com/manage/deleteTypeIncome.php", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                if((response.trim()).equals("success")){
-                    Toast.makeText(activity_Danhsachthu.this,"Thêm thành công",Toast.LENGTH_LONG).show();
-
-                }else{
-                    Toast.makeText(activity_Danhsachthu.this,"Thêm thất bại!!!",Toast.LENGTH_LONG).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity_Danhsachthu.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params = new HashMap<>();
-                params.put("type_incomeID",url);
-                return params;
-            }
-        };
-        requestQueue.add(stringRequest);
-
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

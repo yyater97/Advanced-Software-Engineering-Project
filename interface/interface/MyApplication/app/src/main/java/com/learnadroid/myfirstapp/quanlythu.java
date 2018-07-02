@@ -1,5 +1,6 @@
 package com.learnadroid.myfirstapp;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -18,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -48,15 +51,18 @@ import java.util.Map;
 public class quanlythu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Spinner SpinnerTaikhoan,SpinnerMucchi;
+    private Dialog dialog,dialogChangeAccount;
     ConnectionClass connectionClass;
     EditText Giatri,Ngaychi,Ghichu,Tuai;
     Button Luulai;
+    DatePicker dp;
     private List<String> list ;
     private List<String> list1;
     private String url = "https://quanpn.000webhostapp.com/manage/Laykhoanthu.php";
     private String urlAccount = "https://quanpn.000webhostapp.com/manage/selectAccount.php";
     private String urlInsert = "https://quanpn.000webhostapp.com/manage/insertExpense.php";
     private DictionaryDatabase mDBHelper;
+    String temp="";
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +73,9 @@ public class quanlythu extends AppCompatActivity
         final Intent a = getIntent();
         Bundle bundle = a.getBundleExtra("getUser");
         final String Keys=bundle.getString("Keys");
+        dialog = new Dialog(quanlythu.this);
+        // khởi tạo dialog
+        dialog.setContentView(R.layout.datetime);
         SpinnerTaikhoan=(Spinner) findViewById(R.id.sp_Taikhoan);
         SpinnerMucchi=(Spinner) findViewById(R.id.sp_Mucchi);
         Giatri=(EditText) findViewById(R.id.txt_Giatri);
@@ -74,8 +83,8 @@ public class quanlythu extends AppCompatActivity
         Ghichu=(EditText) findViewById(R.id.txt_Ghichu);
         Tuai=(EditText) findViewById(R.id.txt_Denai);
         Luulai=(Button) findViewById(R.id.btn_Luulai);
+        dp=(DatePicker) dialog.findViewById(R.id.datePicker) ;
         mDBHelper=new DictionaryDatabase(this);
-
         File database=getApplicationContext().getDatabasePath(DictionaryDatabase.DBNAME);
         if(database.exists() == false){
             mDBHelper.getReadableDatabase();
@@ -92,6 +101,41 @@ public class quanlythu extends AppCompatActivity
         adapter = new ArrayAdapter(quanlythu.this, android.R.layout.simple_spinner_item,mDBHelper.SelectTypeIncome());
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         SpinnerMucchi.setAdapter(adapter);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.btn_datetime);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FloatingActionButton btn_OK = (FloatingActionButton) dialog.findViewById(R.id.btn_OK);
+
+                    btn_OK.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            {
+                                int	day		=	 dp.getDayOfMonth();
+                                int month	=	dp.getMonth()+1;
+                                int	year	=	dp.getYear();
+                                Ngaychi.setText(day+"/"+month+"/"+year);
+                                dialog.dismiss();
+                               temp=year+"-"+month+"-"+day;
+
+                            }
+
+                        }
+                    });
+                FloatingActionButton btn_Huy = (FloatingActionButton) dialog.findViewById(R.id.btn_Huy);
+
+                btn_Huy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        {
+                            dialog.dismiss();
+                        }
+
+                    }
+                });
+                dialog.show();
+            }
+        });
         Luulai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,7 +146,7 @@ public class quanlythu extends AppCompatActivity
                 else
                 {
                     //InsertExpense(Keys, SpinnerTaikhoan.getSelectedItem().toString(), SpinnerMucchi.getSelectedItem().toString());
-                    mDBHelper.insertIncome(Keys + "-" + SpinnerTaikhoan.getSelectedItem().toString(), Giatri.getText().toString(), SpinnerMucchi.getSelectedItem().toString(), Ngaychi.getText().toString(), Ghichu.getText().toString(), Tuai.getText().toString(), Keys);
+                    mDBHelper.insertIncome(Keys + "-" + SpinnerTaikhoan.getSelectedItem().toString(), Giatri.getText().toString(), SpinnerMucchi.getSelectedItem().toString(), temp, Ghichu.getText().toString(), Tuai.getText().toString(), Keys);
                     Toast.makeText(quanlythu.this, "" + "Thêm thành công", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -144,6 +188,17 @@ public class quanlythu extends AppCompatActivity
             e.printStackTrace();
             return false;
         }
+    }
+    public String remove(String String)
+    {
+        String a="";
+        String[] strArr;
+        strArr =String.split("/");
+
+        for(int i = strArr.length; i>=0;i--){
+            Toast.makeText(quanlythu.this, strArr[i], Toast.LENGTH_SHORT).show();
+        }
+        return  a;
     }
     public void Mucthu(String url1)
     {

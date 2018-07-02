@@ -1,5 +1,6 @@
 package com.learnadroid.myfirstapp;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -51,15 +53,17 @@ public class quanlychi extends AppCompatActivity
     Spinner SpinnerTaikhoan,SpinnerMucchi;
     ConnectionClass connectionClass;
     TextView a;
-
+    DatePicker dp;
     private List<String> list ;
     private List<String> list1;
     EditText Giatri,Ngaychi,Tuai,Ghichu;
    Button Luulai;
+   String temp="";
     private String url = "https://quanpn.000webhostapp.com/manage/selectKhoanchi.php";
     private String urlAccount = "https://quanpn.000webhostapp.com/manage/selectAccount.php";
     private String urlInsert = "https://quanpn.000webhostapp.com/manage/insertIncome.php";
     private DictionaryDatabase mDBHelper;
+    Dialog dialog;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,9 @@ public class quanlychi extends AppCompatActivity
         final Intent a = getIntent();
         Bundle bundle = a.getBundleExtra("getUser");
         final String Keys=bundle.getString("Keys");
+        dialog = new Dialog(quanlychi.this);
+        // khởi tạo dialog
+        dialog.setContentView(R.layout.datetime);
         SpinnerTaikhoan=(Spinner) findViewById(R.id.sp_Taikhoan);
         SpinnerMucchi=(Spinner) findViewById(R.id.sp_Mucchi);
         Giatri=(EditText) findViewById(R.id.txt_Giatri);
@@ -76,6 +83,7 @@ public class quanlychi extends AppCompatActivity
         Tuai=(EditText) findViewById(R.id.txt_Denai);
         Luulai=(Button) findViewById(R.id.btn_Luulai);
         mDBHelper=new DictionaryDatabase(this);
+        dp=(DatePicker) dialog.findViewById(R.id.datePicker);
         File database=getApplicationContext().getDatabasePath(DictionaryDatabase.DBNAME);
         if(database.exists() == false){
             mDBHelper.getReadableDatabase();
@@ -92,6 +100,40 @@ public class quanlychi extends AppCompatActivity
         adapter = new ArrayAdapter(quanlychi.this, android.R.layout.simple_spinner_item,mDBHelper.SelectTypeExpense());
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         SpinnerMucchi.setAdapter(adapter);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.btn_datetime);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FloatingActionButton btn_OK = (FloatingActionButton) dialog.findViewById(R.id.btn_OK);
+
+                btn_OK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        {
+                            int	day		=	 dp.getDayOfMonth();
+                            int month	=	dp.getMonth()+1;
+                            int	year	=	dp.getYear();
+                            Ngaychi.setText(day+"/"+month+"/"+year);
+                            dialog.dismiss();
+                            temp=year+"-"+month+"-"+day;
+
+                        }
+
+                    }
+                });
+                FloatingActionButton btn_Huy = (FloatingActionButton) dialog.findViewById(R.id.btn_Huy);
+                btn_Huy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        {
+                            dialog.dismiss();
+                        }
+
+                    }
+                });
+                dialog.show();
+            }
+        });
         Luulai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,19 +143,15 @@ public class quanlychi extends AppCompatActivity
                     }
                     else{
                         //InsertExpense(Keys, SpinnerTaikhoan.getSelectedItem().toString(), SpinnerMucchi.getSelectedItem().toString());
-                        mDBHelper.insertExpense(Keys + "-" + SpinnerTaikhoan.getSelectedItem().toString(), Giatri.getText().toString(), SpinnerMucchi.getSelectedItem().toString(), Ngaychi.getText().toString(), Ghichu.getText().toString(), Tuai.getText().toString(), Keys);
+                        mDBHelper.insertExpense(Keys + "-" + SpinnerTaikhoan.getSelectedItem().toString(), Giatri.getText().toString(), SpinnerMucchi.getSelectedItem().toString(), temp, Ghichu.getText().toString(), Tuai.getText().toString(), Keys);
                         Toast.makeText(quanlychi.this, "" + "Thêm thành công", Toast.LENGTH_SHORT).show();
                     }
 
             }
         });
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-      
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

@@ -83,19 +83,29 @@ public class Danhmucchi extends AppCompatActivity
                 return;
             }
         }
+        listView.setAdapter(new CustomDanhmucmuaApdater(Danhmucchi.this,mDBHelper.selectTypeExpense()));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Themhangmuc.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mDBHelper.insertTypeExpense(txtHangmuc.getText().toString(),Diengiai.getText().toString());
+                        if(mDBHelper.selectTypeExpenseInsert(txtHangmuc.getText().toString())==true)
+                        {
+                            Toast.makeText(Danhmucchi.this, "Danh mục đã tồn tại", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            mDBHelper.insertTypeExpense(txtHangmuc.getText().toString(), Diengiai.getText().toString());
+                            listView.setAdapter(new CustomDanhmucmuaApdater(Danhmucchi.this, mDBHelper.selectTypeExpense()));
+                            Toast.makeText(Danhmucchi.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
                     }
                 });
                 dialog.show();
             }
         });
-       listView.setAdapter(new CustomDanhmucmuaApdater(Danhmucchi.this,mDBHelper.selectTypeExpense()));
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
@@ -107,13 +117,21 @@ public class Danhmucchi extends AppCompatActivity
                 Thaydoithongtin.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                       mDBHelper.updateTypeExpense(txtHanngmucthaydoi.getText().toString(),txtDiengiaithaydoi.getText().toString(),MaHangmuc.getText().toString());
-                    }
+
+                            mDBHelper.updateTypeExpense(txtHanngmucthaydoi.getText().toString(), txtDiengiaithaydoi.getText().toString(), MaHangmuc.getText().toString());
+                            listView.setAdapter(new CustomDanhmucmuaApdater(Danhmucchi.this, mDBHelper.selectTypeExpense()));
+                            Toast.makeText(Danhmucchi.this, "Thay đổi thành công", Toast.LENGTH_SHORT).show();
+                            dialogThaydoidanhmuc.dismiss();
+
+                        }
                 });
                 Xoa.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                     mDBHelper.deleteTypeExpense(MaHangmuc.getText().toString());
+                        mDBHelper.deleteTypeExpense(txtHanngmucthaydoi.getText().toString());
+                        listView.setAdapter(new CustomDanhmucmuaApdater(Danhmucchi.this, mDBHelper.selectTypeExpense()));
+                        Toast.makeText(Danhmucchi.this, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                        dialogThaydoidanhmuc.dismiss();
                     }
                 });
                 dialogThaydoidanhmuc.show();

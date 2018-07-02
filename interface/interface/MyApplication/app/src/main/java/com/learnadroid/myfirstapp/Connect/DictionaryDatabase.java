@@ -342,12 +342,12 @@ public class DictionaryDatabase  extends SQLiteOpenHelper {
     }
     public void deleteTypeExpense(String detail_type_expenseName) {
         openDatabase();
-        mDatabase.delete("detail_type_expense", "detail_type_expenseID"+"=?",new String[]{detail_type_expenseName});
+        mDatabase.delete("detail_type_expense", "detail_type_expenseName"+"=?",new String[]{detail_type_expenseName});
         closeDatabase();
     }
     public void deleteTypeIncome(String type_incomeName) {
         openDatabase();
-        mDatabase.delete("type_income", "type_incomeID"+"=?",new String[]{type_incomeName});
+        mDatabase.delete("type_income", "type_incomeName"+"=?",new String[]{type_incomeName});
         closeDatabase();
     }
     public void insertTypeIncome(String a,String b) {
@@ -361,18 +361,18 @@ public class DictionaryDatabase  extends SQLiteOpenHelper {
     public void insertTypeExpense(String a,String b) {
         openDatabase();
         ContentValues values = new ContentValues();
-        values.put("detail_type_expense", a);
-        values.put("type_expenseID","TE002");
+        values.put("detail_type_expenseName", a);
+        values.put("type_expenseID","TE11");
         values.put("description", b);
-        mDatabase.insert("type_income", null, values);
+        mDatabase.insert("detail_type_expense", null, values);
 
         closeDatabase();
     }
     public void updateTypeExpense(String a,String b,String c) {
         openDatabase();
         ContentValues values = new ContentValues();
-        values.put("detail_type_expense", a);
-        values.put("type_expenseID", "TE002");
+        values.put("detail_type_expenseName", a);
+        values.put("type_expenseID", a);
         values.put("description", b);
         mDatabase.update("detail_type_expense",values,"detail_type_expenseID"+"=?",new String[]{c});
         closeDatabase();
@@ -397,7 +397,10 @@ public class DictionaryDatabase  extends SQLiteOpenHelper {
             do{
                 if(userID.equals(cursor.getString(cursor.getColumnIndexOrThrow("userID"))) )
                 {
-                    list.add(new Country(cursor.getString(cursor.getColumnIndexOrThrow("accountName")),"user",Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("balance")))));
+                    String a=cursor.getString(cursor.getColumnIndexOrThrow("accountID"));
+                    int temp=SelectChiAccount(a);
+                    int temp2=SelectThuAccount(a);
+                    list.add(new Country(cursor.getString(cursor.getColumnIndexOrThrow("accountName")),"user",Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("balance")))+temp+temp2));
                 }
 
             }while(cursor.moveToNext());
@@ -405,6 +408,27 @@ public class DictionaryDatabase  extends SQLiteOpenHelper {
         }
         cursor.close();
         return list;
+    }
+    public String Balance(String accountID)
+    {
+        List<Country> list = new ArrayList<Country>();
+        openDatabase();
+        String a="";
+        String query = "Select * from account";
+        Cursor cursor = mDatabase.rawQuery(query, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                if(accountID.equals(cursor.getString(cursor.getColumnIndexOrThrow("accountID"))) )
+                {
+                    a=cursor.getString(cursor.getColumnIndexOrThrow("balance"));
+                }
+
+            }while(cursor.moveToNext());
+
+        }
+        cursor.close();
+        return a;
     }
     public List<String> SelectAccount(String userID)
     {
@@ -540,7 +564,7 @@ public class DictionaryDatabase  extends SQLiteOpenHelper {
                 if(IncomeID.equals(cursor.getString(cursor.getColumnIndexOrThrow("ExpenseID")))) {
 
                     a.setGiattri( cursor.getString(cursor.getColumnIndexOrThrow("Giatri")));
-                    a.setNgaychi(  cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")));
+                    a.setNgaychi(  subString(cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")),2)+"/"+subString(cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")),1)+"/"+subString(cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")),0));
                     a.setGhichu( cursor.getString(cursor.getColumnIndexOrThrow("Ghichu")));
                     a.setDenai(  cursor.getString(cursor.getColumnIndexOrThrow("Denai")));
 
@@ -565,7 +589,7 @@ public class DictionaryDatabase  extends SQLiteOpenHelper {
                 if(IncomeID.equals(cursor.getString(cursor.getColumnIndexOrThrow("IncomeID")))) {
 
                     a.setGiattri( cursor.getString(cursor.getColumnIndexOrThrow("Giatri")));
-                    a.setNgaychi(  cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")));
+                    a.setNgaychi(  subString(cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")),2)+"/"+subString(cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")),1)+"/"+subString(cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")),0));
                     a.setGhichu( cursor.getString(cursor.getColumnIndexOrThrow("Ghichu")));
                     a.setDenai(  cursor.getString(cursor.getColumnIndexOrThrow("Denai")));
 
@@ -935,10 +959,10 @@ public class DictionaryDatabase  extends SQLiteOpenHelper {
         }
         return prefixID + nextID;
     }
-    public float SelectThuAccount(String accountID)
+    public int SelectThuAccount(String accountID)
     {
         openDatabase();
-        float a=0;
+        int a=0;
         String query = "Select * from Thu";
         Cursor cursor = mDatabase.rawQuery(query, null);
         if(cursor.moveToFirst())
@@ -947,17 +971,17 @@ public class DictionaryDatabase  extends SQLiteOpenHelper {
                 String temp = cursor.getString(cursor.getColumnIndexOrThrow("accountID"));
                 if (temp.equals(accountID)) {
 
-                    a = a + Float.parseFloat(cursor.getString(cursor.getColumnIndexOrThrow("Giatri")));
+                    a = a + Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("Giatri")));
                 }
             }while (cursor.moveToNext());
         }
         cursor.close();
         return a;
     }
-    public float SelectChiAccount(String accountID)
+    public int SelectChiAccount(String accountID)
     {
         openDatabase();
-        float a=0;
+        int a=0;
         String query = "Select * from Chi";
         Cursor cursor = mDatabase.rawQuery(query, null);
         if(cursor.moveToFirst())
@@ -966,7 +990,7 @@ public class DictionaryDatabase  extends SQLiteOpenHelper {
                 String temp = cursor.getString(cursor.getColumnIndexOrThrow("accountID"));
                 if (temp.equals(accountID)) {
 
-                    a = a + Float.parseFloat(cursor.getString(cursor.getColumnIndexOrThrow("Giatri")));
+                    a = a + Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("Giatri")));
                 }
             }while (cursor.moveToNext());
         }
@@ -985,7 +1009,7 @@ public class DictionaryDatabase  extends SQLiteOpenHelper {
             do {
                 String temp = cursor.getString(cursor.getColumnIndexOrThrow("accountID"));
                 if (temp.equals(accountID)) {
-                    list.add(new Income("Thu: " + cursor.getString(cursor.getColumnIndexOrThrow("Mucchi")), "thutien", cursor.getString(cursor.getColumnIndexOrThrow("Giatri")),"Ngày: " +cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")), cursor.getString(cursor.getColumnIndexOrThrow("IncomeID"))));
+                    list.add(new Income("Thu: " + cursor.getString(cursor.getColumnIndexOrThrow("Mucchi")), "thutien", cursor.getString(cursor.getColumnIndexOrThrow("Giatri")),"Ngày: " +subString(cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")),2)+"/"+subString(cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")),1)+"/"+subString(cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")),0), cursor.getString(cursor.getColumnIndexOrThrow("IncomeID"))));
 
                 }
             }
@@ -1007,7 +1031,7 @@ public class DictionaryDatabase  extends SQLiteOpenHelper {
                 String temp = cursor.getString(cursor.getColumnIndexOrThrow("accountID"));
                 if (temp.equals(accountID)) {
 
-                    list.add(new Income("Chi: " + cursor.getString(cursor.getColumnIndexOrThrow("Mucchi")), "anuong", cursor.getString(cursor.getColumnIndexOrThrow("Giatri")), "Ngày: "+cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")), cursor.getString(cursor.getColumnIndexOrThrow("ExpenseID"))));
+                    list.add(new Income("Chi: " + cursor.getString(cursor.getColumnIndexOrThrow("Mucchi")), "anuong", cursor.getString(cursor.getColumnIndexOrThrow("Giatri")), "Ngày: "+"Ngày: " +subString(cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")),2)+"/"+subString(cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")),1)+"/"+subString(cursor.getString(cursor.getColumnIndexOrThrow("Ngaychi")),0), cursor.getString(cursor.getColumnIndexOrThrow("ExpenseID"))));
 
                 }
             }while (cursor.moveToNext());
@@ -1223,5 +1247,15 @@ public class DictionaryDatabase  extends SQLiteOpenHelper {
             a=(strArr[i]);
         }
     return  a;
+    }
+    public String subString(String String,int k )
+    {
+        String a=null;
+        String[] strArr;
+        strArr =String.split("-");
+        for(int i = 0; i < strArr.length; i++){
+            a=(strArr[k]);
+        }
+        return  a;
     }
 }

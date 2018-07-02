@@ -85,17 +85,17 @@ public class mainbaocao extends AppCompatActivity
                                 if (Keys.equals(Remove(obj.getString("Ngaychi")))) {
 
                                     k += Integer.parseInt(obj.getString("Giatri"));
-                                    image_details.add(new Income("Chi: " + obj.getString("Mucchi"), "anuong", (obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), remove(remove(obj.getString("ExpenseID")))));
+                                    image_details.add(new Income("Chi: " + obj.getString("Mucchi"), "anuong", (obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")),((obj.getString("ExpenseID"))).substring(0,6)));
                                 }
                                 if(Keys.equals(Remove(obj.getString("Ngaychi").substring(0,7))))
                                 {
                                     k += Integer.parseInt(obj.getString("Giatri"));
-                                    image_details.add(new Income("Chi: " + obj.getString("Mucchi"), "anuong", (obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), remove(obj.getString("ExpenseID"))));
+                                    image_details.add(new Income("Chi: " + obj.getString("Mucchi"), "anuong", (obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), (obj.getString("ExpenseID")).substring(0,6)));
                                 }
                                 if(Keys.equals(Remove(obj.getString("Ngaychi").substring(0,4))))
                                 {
                                     k += Integer.parseInt(obj.getString("Giatri"));
-                                    image_details.add(new Income("Chi: " + obj.getString("Mucchi"), "anuong", (obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), remove(obj.getString("ExpenseID"))));
+                                    image_details.add(new Income("Chi: " + obj.getString("Mucchi"), "anuong", (obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), (obj.getString("ExpenseID")).substring(0,6)));
                                 }
 
                             }
@@ -136,17 +136,17 @@ public class mainbaocao extends AppCompatActivity
                                     if (Keys.equals(Remove(obj.getString("Ngaychi")))) {
 
                                         b += Integer.parseInt(obj.getString("Giatri"));
-                                        image_details.add(new Income("Thu: " + obj.getString("Mucchi"), "money", (obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), obj.getString("IncomeID")));
+                                        image_details.add(new Income("Thu: " + obj.getString("Mucchi"), "money", (obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), obj.getString("IncomeID").substring(0,6)));
                                     }
                                     if (Keys.equals(Remove(obj.getString("Ngaychi").substring(0,7)))) {
 
                                         b += Integer.parseInt(obj.getString("Giatri"));
-                                        image_details.add(new Income("Thu: " + obj.getString("Mucchi"), "money", (obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), obj.getString("IncomeID")));
+                                        image_details.add(new Income("Thu: " + obj.getString("Mucchi"), "money", (obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), obj.getString("IncomeID").substring(0,6)));
                                     }
                                     if (Keys.equals(Remove(obj.getString("Ngaychi").substring(0,4)))) {
 
                                         b += Integer.parseInt(obj.getString("Giatri"));
-                                        image_details.add(new Income("Thu: " + obj.getString("Mucchi"), "money",(obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), obj.getString("IncomeID")));
+                                        image_details.add(new Income("Thu: " + obj.getString("Mucchi"), "money",(obj.getString("Giatri")), "Tài khoản: " + Catchuoi(obj.getString("accountID")), obj.getString("IncomeID").substring(0,6)));
                                     }
 
                                 }
@@ -224,6 +224,16 @@ public class mainbaocao extends AppCompatActivity
     {
         String=String.replace("-0","-");
         return String;
+    }
+    public String subString(String String,int k )
+    {
+        String a=null;
+        String[] strArr;
+        strArr =String.split("/");
+        for(int i = 0; i < strArr.length; i++){
+            a=(strArr[k]);
+        }
+        return  a;
     }
 
     @Override
@@ -597,6 +607,7 @@ public class mainbaocao extends AppCompatActivity
         String a=null;
         String[] strArr;
         strArr =String.split("");
+
         for(int i = 0; i < strArr.length; i++){
             a=(strArr[0]);
         }

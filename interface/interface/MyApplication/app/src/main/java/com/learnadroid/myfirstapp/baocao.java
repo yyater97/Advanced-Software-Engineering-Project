@@ -71,15 +71,7 @@ public class baocao extends AppCompatActivity
                 return;
             }
         }
-        if (isConnected()==true)
-        {
-            mDBHelper.InsertUserMenu(baocao.this);
-            mDBHelper.InsertAccountMenu(baocao.this);
-            mDBHelper.UpdateAccountMenu(baocao.this);
-            mDBHelper.InsertIncomeMenu(baocao.this);
-            mDBHelper.InsertExpenseMenu(baocao.this);
 
-        }
         list.add(new lisviewBaocao("HÔM NAY","today",String.valueOf(calendar.get(Calendar.DATE))+"-"+String.valueOf(calendar.get(Calendar.MONTH)+1)+"-"+String.valueOf(calendar.get(Calendar.YEAR)),String.valueOf(calendar.get(Calendar.YEAR))+"-"+String.valueOf(calendar.get(Calendar.MONTH)+1)+"-"+String.valueOf(calendar.get(Calendar.DATE))));
         list.add(new lisviewBaocao("THÁNG NÀY","thangnay",String.valueOf(calendar.get(Calendar.MONTH)+1)+"-"+String.valueOf(calendar.get(Calendar.YEAR)),String.valueOf(calendar.get(Calendar.YEAR))+"-"+String.valueOf(calendar.get(Calendar.MONTH)+1)));
         list.add(new lisviewBaocao("NĂM NAY","namnay",String.valueOf(calendar.get(Calendar.YEAR)),String.valueOf(calendar.get(Calendar.YEAR))));

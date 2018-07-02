@@ -112,9 +112,9 @@ public class taikhoan extends AppCompatActivity
                 final TextView textViewCountry=(TextView) v.findViewById(R.id.textView_countryName) ;
                 TextView textViewBalance=(TextView) v.findViewById(R.id.textView_population) ;
                 UserChangeAccount.setText(textViewCountry.getText().toString());
-                textViewChi.setText(String.valueOf(mDBHelper.SelectChiAccount(Keys+"-"+textViewCountry.getText().toString().trim())));
-                textViewThu.setText(String.valueOf(mDBHelper.SelectThuAccount(Keys+"-"+textViewCountry.getText().toString().trim())));
-                BalanceChangeAccount.setText(String.valueOf(Remove(textViewBalance.getText().toString())));
+                textViewChi.setText(String.valueOf(mDBHelper.SelectChiAccount(Keys+"-"+textViewCountry.getText().toString().trim()))+"Đ");
+                textViewThu.setText(String.valueOf(mDBHelper.SelectThuAccount(Keys+"-"+textViewCountry.getText().toString().trim()))+"Đ");
+                BalanceChangeAccount.setText(mDBHelper.Balance(Keys+"-"+textViewCountry.getText().toString().trim()));
                UserChangeAccount.setEnabled(false);
                 Btn_Thaydoithongtin.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -125,12 +125,14 @@ public class taikhoan extends AppCompatActivity
                             listView.setAdapter(null);
                             listView.setAdapter(new CustomListAdapter(taikhoan.this,mDBHelper.Taikhoan(Keys)));
                             Toast.makeText(taikhoan.this,""+"Thay đổi thành công",Toast.LENGTH_SHORT).show();
+                            dialogChangeAccount.dismiss();
                         }
                         else {
                             mDBHelper.updateAccount11(taikhoan.this,Keys+"-"+UserChangeAccount.getText().toString(),UserChangeAccount.getText().toString(),BalanceChangeAccount.getText().toString());
                             listView.setAdapter(null);
                             listView.setAdapter(new CustomListAdapter(taikhoan.this,mDBHelper.Taikhoan(Keys)));
                             Toast.makeText(taikhoan.this,""+"Thay đổi thành công",Toast.LENGTH_SHORT).show();
+                            dialogChangeAccount.dismiss();
                         }
                     }
                 });
@@ -160,6 +162,7 @@ public class taikhoan extends AppCompatActivity
                             mDBHelper.deleteAccount(Keys+"-"+UserChangeAccount.getText().toString());
                             listView.setAdapter(null);
                             listView.setAdapter(new CustomListAdapter(taikhoan.this,mDBHelper.Taikhoan(Keys)));
+                            dialogChangeAccount.dismiss();
 
                         }
                         else {
@@ -189,18 +192,12 @@ public class taikhoan extends AppCompatActivity
                         if (Username.getText().toString().equals("") || Balance.getText().toString().equals("")) {
                             Toast.makeText(taikhoan.this, "Thêm tài khoản thất bại", Toast.LENGTH_SHORT).show();
                         } else {
-                            if(isConnected()==true) {
+
                                
                                 mDBHelper.insertAccount(taikhoan.this,Keys+"-"+Username.getText().toString(),Keys,Username.getText().toString(),Balance.getText().toString());
                                 listView.setAdapter(null);
                                 listView.setAdapter(new CustomListAdapter(taikhoan.this, mDBHelper.Taikhoan(Keys)));
-                            }
-                            else
-                            {
-                                mDBHelper.insertAccount(taikhoan.this,Keys+"-"+Username.getText().toString(),Keys,Username.getText().toString(),Balance.getText().toString());
-                                listView.setAdapter(null);
-                                listView.setAdapter(new CustomListAdapter(taikhoan.this, mDBHelper.Taikhoan(Keys)));
-                            }
+                                dialog.dismiss();
                         }
                     }
                 });

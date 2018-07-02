@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -54,7 +55,7 @@ import static com.android.volley.Response.ErrorListener;
 
 public class baocaothuAccount extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private Dialog dialog;
+    private Dialog dialog,dialogdatetime;
     EditText Giatri,Ngaychi,Ghichu,Tuai;
     Spinner SpinnerTaikhoan,SpinnerMucchi;
     TextView textViewMaGD,textViewCohieu;
@@ -67,6 +68,7 @@ public class baocaothuAccount extends AppCompatActivity
     private String urlAccount = "https://quanpn.000webhostapp.com/manage/selectAccount.php";
     private List<String> list ;
     private List<String> list1;
+    DatePicker dp;
     private  DictionaryDatabase mDBHelper;
     @Override
 
@@ -84,6 +86,8 @@ public class baocaothuAccount extends AppCompatActivity
         setSupportActionBar(toolbar);
         dialog=new Dialog(baocaothuAccount.this);
         dialog.setContentView(R.layout.change_list_thu_chi);
+        dialogdatetime=new Dialog(baocaothuAccount.this);
+        dialogdatetime.setContentView(R.layout.datetime);
         SpinnerTaikhoan=(Spinner) dialog.findViewById(R.id.sp_Taikhoan);
         SpinnerMucchi=(Spinner) dialog.findViewById(R.id.sp_Mucchi);
         Giatri=(EditText) dialog.findViewById(R.id.txt_Giatri);
@@ -93,6 +97,7 @@ public class baocaothuAccount extends AppCompatActivity
         mDBHelper = new DictionaryDatabase(this);
         Xoa=(Button)dialog.findViewById(R.id.btn_Xoa);
         Luulai=(Button)dialog.findViewById(R.id.btn_Luulai);
+        dp=(DatePicker) dialogdatetime.findViewById(R.id.datePicker);
         File database = getApplicationContext().getDatabasePath(DictionaryDatabase.DBNAME);
         if (database.exists() == false) {
             mDBHelper.getReadableDatabase();
@@ -115,6 +120,40 @@ public class baocaothuAccount extends AppCompatActivity
         {
             image_details.add(mDBHelper.SelectIncomeAccountID(Keys).get(i));
         }
+        FloatingActionButton fab = (FloatingActionButton) dialog.findViewById(R.id.btn_datetime);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FloatingActionButton btn_OK = (FloatingActionButton) dialogdatetime.findViewById(R.id.btn_OK);
+
+                btn_OK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        {
+                            int	day		=	 dp.getDayOfMonth();
+                            int month	=	dp.getMonth()+1;
+                            int	year	=	dp.getYear();
+                            Ngaychi.setText(day+"/"+month+"/"+year);
+                            dialogdatetime.dismiss();
+
+                        }
+
+                    }
+                });
+                FloatingActionButton btn_Huy = (FloatingActionButton) dialogdatetime.findViewById(R.id.btn_Huy);
+
+                btn_Huy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        {
+                            dialogdatetime.dismiss();
+                        }
+
+                    }
+                });
+                dialogdatetime.show();
+            }
+        });
 
         listView.setAdapter(new CustomIncomeApdater(baocaothuAccount.this,image_details));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -150,6 +189,7 @@ public class baocaothuAccount extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         if(isConnected()==true) {
+
                             mDBHelper.deleteExpense(Remove(textViewMaGD.getText().toString()));
                             mDBHelper.deleteIncome(Remove(textViewMaGD.getText().toString()));
                             deleteIncome(baocaothuAccount.this,Remove(textViewMaGD.getText().toString())+"("+Keys1+")");
@@ -171,14 +211,15 @@ public class baocaothuAccount extends AppCompatActivity
                             Toast.makeText(baocaothuAccount.this, "Cần kết nối internet để thực hiện chức năng này", Toast.LENGTH_SHORT).show();
 
                         }
+                        dialog.dismiss();
                     }
                 });
                 Luulai.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Toast.makeText(baocaothuAccount.this, "Thay đổi thành công", Toast.LENGTH_SHORT).show();
-                       mDBHelper.UpdateExpense(Remove(textViewMaGD.getText().toString()),Keys1+"-"+SpinnerTaikhoan.getSelectedItem().toString(),Giatri.getText().toString(),SpinnerMucchi.getSelectedItem().toString(),Ngaychi.getText().toString(),Ghichu.getText().toString(),Tuai.getText().toString(),Keys1);
-                        mDBHelper.UpdateIncome(Remove(textViewMaGD.getText().toString()),Keys1+"-"+SpinnerTaikhoan.getSelectedItem().toString(),Giatri.getText().toString(),SpinnerMucchi.getSelectedItem().toString(),Ngaychi.getText().toString(),Ghichu.getText().toString(),Tuai.getText().toString(),Keys1);
+                       mDBHelper.UpdateExpense(Remove(textViewMaGD.getText().toString()),Keys1+"-"+SpinnerTaikhoan.getSelectedItem().toString(),Giatri.getText().toString(),SpinnerMucchi.getSelectedItem().toString(),subString(Ngaychi.getText().toString(),2)+"-"+subString(Ngaychi.getText().toString(),1)+"-"+subString(Ngaychi.getText().toString(),0),Ghichu.getText().toString(),Tuai.getText().toString(),Keys1);
+                        mDBHelper.UpdateIncome(Remove(textViewMaGD.getText().toString()),Keys1+"-"+SpinnerTaikhoan.getSelectedItem().toString(),Giatri.getText().toString(),SpinnerMucchi.getSelectedItem().toString(),subString(Ngaychi.getText().toString(),2)+"-"+subString(Ngaychi.getText().toString(),1)+"-"+subString(Ngaychi.getText().toString(),0),Ghichu.getText().toString(),Tuai.getText().toString(),Keys1);
                         listView.setAdapter(null);
                         List<Income> image_details1 = new ArrayList<Income>();
                         for(int i=0;i<mDBHelper.SelectExpenseAccountID(Keys).size();i++)
@@ -190,6 +231,7 @@ public class baocaothuAccount extends AppCompatActivity
                             image_details1.add(mDBHelper.SelectIncomeAccountID(Keys).get(i));
                         }
                         listView.setAdapter(new CustomIncomeApdater(baocaothuAccount.this,image_details1));
+                        dialog.dismiss();
                     }
                 });
                 dialog.show();
@@ -291,126 +333,7 @@ public class baocaothuAccount extends AppCompatActivity
         requestQueue.add(stringRequest);
 
     }
-    public void Taikhoan(String url1,final String Keys)
-    {
-        list1=new ArrayList<>();
-        final RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONArray arr = new JSONArray(response);
-                    for(int i = 0; i<response.length(); i++){
-                        try {
-                            JSONObject obj = arr.getJSONObject(i);
-                            {
-                                list1.add(obj.getString("accountName"));
-                            }
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        ArrayAdapter<String> adapter = new ArrayAdapter(baocaothuAccount.this, android.R.layout.simple_spinner_item,list1);
-                        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-                        SpinnerTaikhoan.setAdapter(adapter);
-                    }
-                } catch (JSONException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(baocaothuAccount.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params = new HashMap<>();
-                params.put("userID",Keys);
-                return params;
-            }
-        };
-        requestQueue.add(stringRequest);
-    }
-    public void MucChi(String url1)
-    {
-        list=new ArrayList<>();
-        final RequestQueue requestQueue = Volley.newRequestQueue(this);
-        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url1, null,
-                new Response.Listener<JSONArray>(){
-
-                    @Override
-
-                    public void onResponse(JSONArray response) {
-                        for(int i = 0; i<response.length(); i++){
-                            try {
-                                JSONObject obj = response.getJSONObject(i);
-                                {
-                                    list.add(obj.getString("detail_type_expenseName"));
-                                }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            ArrayAdapter<String> adapter = new ArrayAdapter(baocaothuAccount.this, android.R.layout.simple_spinner_item,list);
-                            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-                            SpinnerMucchi.setAdapter(adapter);
-                        }
-                    }
-                },
-                new Response.ErrorListener(){
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(baocaothuAccount.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
-        requestQueue.add(jsonArrayRequest);
-    }
-    public void Income(String url,final String Keys)
-    {
-        final RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONArray arr = new JSONArray(response);
-                    for (int i = 0; i < arr.length(); i++) {
-                        try {
-                            JSONObject obj = arr.getJSONObject(i);
-                            {
-                                Giatri.setText(obj.getString("Giatri"));
-                                Ngaychi.setText(obj.getString("Ngaychi"));
-                                Ghichu.setText(obj.getString("Ghichu"));
-                                Tuai.setText(obj.getString("Denai"));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                } catch (JSONException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }, new ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(baocaothuAccount.this,"Xảy ra lỗi!",Toast.LENGTH_LONG).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params = new HashMap<>();
-                params.put("IncomeID",Keys);
-                return params;
-            }
-        };
-
-        requestQueue.add(stringRequest);
-    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -445,6 +368,16 @@ public class baocaothuAccount extends AppCompatActivity
         String=String.replace("Mã giao dịch: ","");
 
         return String;
+    }
+    public String subString(String String,int k )
+    {
+        String a=null;
+        String[] strArr;
+        strArr =String.split("/");
+        for(int i = 0; i < strArr.length; i++){
+            a=(strArr[k]);
+        }
+        return  a;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

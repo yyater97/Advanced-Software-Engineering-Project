@@ -167,24 +167,38 @@
                     android:layout_height="40dp"
                     android:background="@color/colorPrimary"
                     android:padding="8dp"
-                    android:src="@drawable/img_email"
+
                     android:tint="@color/white"
                     app:srcCompat="@drawable/icontine" />
 
                 <EditText
                     android:id="@+id/txt_Ngaychi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="196dp"
+                    android:layout_height="match_parent"
                     android:layout_alignBottom="@+id/imgView_emailIcon"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:inputType="date"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginEnd="42dp"
+                    android:layout_marginRight="42dp"
                     android:layout_toRightOf="@+id/imgView_emailIcon"
                     android:background="@color/editTextBG"
-                    android:hint="Ngày thu"
+                    android:hint="Ngày chi(dd/mm/yy)"
+                    android:inputType="date"
                     android:paddingLeft="20dp"
                     android:textSize="15sp" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/btn_datetime"
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="-42dp"
+                    android:layout_toEndOf="@+id/txt_Ngaychi"
+                    android:clickable="true"
+                    app:backgroundTint="@color/editTextBG"
+                    app:srcCompat="@drawable/calendar" />
 
             </RelativeLayout>
 

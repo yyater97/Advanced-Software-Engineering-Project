@@ -56,7 +56,7 @@ public class CustomListAdapter  extends BaseAdapter {
 
         Country country = this.listData.get(position);
         holder.countryNameView.setText(country.getCountryName());
-        holder.populationView.setText("Số dư ban đầu: " + country.getPopulation()+" Đ");
+        holder.populationView.setText("Số tiền hiện tại: " + country.getPopulation()+" Đ");
         int imageId = this.getMipmapResIdByName(country.getFlagName());
         holder.flagView.setImageResource(imageId);
         return convertView;

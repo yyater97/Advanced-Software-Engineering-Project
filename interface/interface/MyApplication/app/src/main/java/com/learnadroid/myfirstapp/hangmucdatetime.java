@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -54,11 +55,12 @@ public class hangmucdatetime extends AppCompatActivity
     String urlSelectExpense = "https://quanpn.000webhostapp.com/manage/selectExpenseUserID.php";
     String urlSelectIncome = "https://quanpn.000webhostapp.com/manage/selectIncomeUserID.php";
     private  DictionaryDatabase mDBHelper;
-    private Dialog dialog;
+    private Dialog dialog,dialogdatetime;
     EditText Giatri,Ngaychi,Ghichu,Tuai;
     Spinner SpinnerTaikhoan,SpinnerMucchi;
     TextView textViewMaGD,textViewCohieu;
     Button Xoa,Luulai;
+    DatePicker dp;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class hangmucdatetime extends AppCompatActivity
         final String Keys1=bundle.getString("Keys1");
         dialog=new Dialog(hangmucdatetime.this);
         dialog.setContentView(R.layout.change_list_thu_chi);
+        dialogdatetime=new Dialog(hangmucdatetime.this);
+        dialogdatetime.setContentView(R.layout.datetime);
         SpinnerTaikhoan=(Spinner) dialog.findViewById(R.id.sp_Taikhoan);
         SpinnerMucchi=(Spinner) dialog.findViewById(R.id.sp_Mucchi);
         Giatri=(EditText) dialog.findViewById(R.id.txt_Giatri);
@@ -84,6 +88,7 @@ public class hangmucdatetime extends AppCompatActivity
         Luulai=(Button)dialog.findViewById(R.id.btn_Luulai);
         final List<Income> image_details = new ArrayList<Income>();
         mDBHelper = new DictionaryDatabase(this);
+        dp=(DatePicker) dialogdatetime.findViewById(R.id.datePicker);
         final ListView listView = (ListView) findViewById(R.id.listView1);
         File database = getApplicationContext().getDatabasePath(DictionaryDatabase.DBNAME);
         if (database.exists() == false) {
@@ -103,6 +108,39 @@ public class hangmucdatetime extends AppCompatActivity
         {
             image_details.add(mDBHelper.SelectIncomeDatetime(Keys1,Keys).get(i));
         }
+        FloatingActionButton fab = (FloatingActionButton) dialog.findViewById(R.id.btn_datetime);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FloatingActionButton btn_OK = (FloatingActionButton) dialogdatetime.findViewById(R.id.btn_OK);
+
+                btn_OK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        {
+                            int	day		=	 dp.getDayOfMonth();
+                            int month	=	dp.getMonth()+1;
+                            int	year	=	dp.getYear();
+                            Ngaychi.setText(day+"/"+month+"/"+year);
+                            dialogdatetime.dismiss();
+                        }
+
+                    }
+                });
+                FloatingActionButton btn_Huy = (FloatingActionButton) dialogdatetime.findViewById(R.id.btn_Huy);
+
+                btn_Huy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        {
+                            dialogdatetime.dismiss();
+                        }
+
+                    }
+                });
+                dialogdatetime.show();
+            }
+        });
         listView.setAdapter(new CustomIncomeApdater(hangmucdatetime.this,image_details));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -164,8 +202,8 @@ public class hangmucdatetime extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         Toast.makeText(hangmucdatetime.this, "Thay đổi thành công", Toast.LENGTH_SHORT).show();
-                        mDBHelper.UpdateExpense(Remove(textViewMaGD.getText().toString()),Keys1+"-"+SpinnerTaikhoan.getSelectedItem().toString(),Giatri.getText().toString(),SpinnerMucchi.getSelectedItem().toString(),Ngaychi.getText().toString(),Ghichu.getText().toString(),Tuai.getText().toString(),Keys1);
-                        mDBHelper.UpdateIncome(Remove(textViewMaGD.getText().toString()),Keys1+"-"+SpinnerTaikhoan.getSelectedItem().toString(),Giatri.getText().toString(),SpinnerMucchi.getSelectedItem().toString(),Ngaychi.getText().toString(),Ghichu.getText().toString(),Tuai.getText().toString(),Keys1);
+                        mDBHelper.UpdateExpense(Remove(textViewMaGD.getText().toString()),Keys1+"-"+SpinnerTaikhoan.getSelectedItem().toString(),Giatri.getText().toString(),SpinnerMucchi.getSelectedItem().toString(),subString(Ngaychi.getText().toString(),2)+"-"+subString(Ngaychi.getText().toString(),1)+"-"+subString(Ngaychi.getText().toString(),0),Ghichu.getText().toString(),Tuai.getText().toString(),Keys1);
+                        mDBHelper.UpdateIncome(Remove(textViewMaGD.getText().toString()),Keys1+"-"+SpinnerTaikhoan.getSelectedItem().toString(),Giatri.getText().toString(),SpinnerMucchi.getSelectedItem().toString(),subString(Ngaychi.getText().toString(),2)+"-"+subString(Ngaychi.getText().toString(),1)+"-"+subString(Ngaychi.getText().toString(),0),Ghichu.getText().toString(),Tuai.getText().toString(),Keys1);
                         listView.setAdapter(null);
                         List<Income> image_details1 = new ArrayList<Income>();
                         for(int i=0;i<mDBHelper.SelectExpenseDatetime(Keys1,Keys).size();i++)
@@ -281,6 +319,17 @@ public class hangmucdatetime extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+    public String subString(String String,int k )
+    {
+        String a=null;
+        String[] strArr;
+        strArr =String.split("/");
+        for(int i = 0; i < strArr.length; i++){
+            a=(strArr[k]);
+        }
+        return  a;
+    }
+
     public String Remove(String String)
     {
         String=String.replace("-0","-");
